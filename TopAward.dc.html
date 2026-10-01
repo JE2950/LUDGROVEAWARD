@@ -10,6 +10,7 @@
 <helmet>
 <title>Top award</title>
 <link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="mobile.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
 <script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
 <script src="trail.js"></script>
@@ -26,7 +27,7 @@
     <h1 style="font-size: 48px; font-weight: 500;">{{ topName }}</h1>
     <p style="font-size: 17px; max-width: 42em; text-wrap: pretty;">The top award is for a boy who has faced things he found hard, grown in confidence and given back. You apply with a statement and up to five entries from your trail. Your Division Master nominates, a panel of senior staff decides and the Headmaster confirms.</p>
 
-    <ol style="list-style: none; padding: 0; margin: var(--space-6) 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3);">
+    <ol class="m-cols-2" style="list-style: none; padding: 0; margin: var(--space-6) 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3);">
       <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
         <li style="border-top: 3px solid {{ s.line }}; padding-top: var(--space-2);">
           <div style="font-family: var(--font-heading); font-size: 20px; font-weight: 600; color: {{ s.color }};">{{ s.label }}</div>
@@ -35,7 +36,7 @@
       </sc-for>
     </ol>
 
-    <section style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-8); align-items: start;">
+    <section class="m-stack" style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-8); align-items: start;">
       <div>
         <h2 style="font-size: 26px;">Your statement</h2>
         <p style="font-size: 14px; color: var(--color-neutral-700);">About 250 words, in your own words. Try: Which challenge changed you most? When did you want to give up, and what did you do? How have you helped other boys?</p>

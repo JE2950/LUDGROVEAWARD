@@ -175,8 +175,24 @@
     try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { console.warn('Could not save demo data', e); }
     window.dispatchEvent(new Event('trail-change'));
   }
+  /* Mobile view. Kept outside S so resetting the demo data leaves it alone. Defaults to mobile on a narrow screen. */
+  const VIEW_KEY = KEY + ':view';
+  function view() {
+    let v = null;
+    try { v = localStorage.getItem(VIEW_KEY); } catch (e) {}
+    if (v === 'mobile' || v === 'desktop') return v;
+    return window.matchMedia('(max-width: 640px)').matches ? 'mobile' : 'desktop';
+  }
+  function applyView() { document.documentElement.classList.toggle('mobile-view', view() === 'mobile'); }
+  function setView(v) {
+    try { localStorage.setItem(VIEW_KEY, v); } catch (e) {}
+    applyView();
+    window.dispatchEvent(new Event('trail-change'));
+  }
+  applyView();
+
   const today = () => new Date().toISOString().slice(0, 10);
-  const nid = p => p + (++S.seq);
+  const nid =p => p + (++S.seq);
   function who() { const p = persona(); return p.role === 'staff' ? STAFF[p.staff].name : p.role === 'parent' ? p.name : p.name; }
   function log(action, record) { S.audit.unshift({ at: new Date().toISOString().slice(0, 19), who: who(), action, record }); }
 
@@ -229,7 +245,7 @@
   window.Trail = {
     CATS, STAGES, BAND_ORDER, TEMPLATES, PROMPTS, FEELINGS, GRIT, EFFORT, STAFF, PUPILS, PERSONAS,
     get state() { return S; },
-    persona, pupilFor, stageName, topName, progress, fmt, fmtTime, today, linkState, cleanImage,
+    persona, pupilFor, stageName, topName, progress, fmt, fmtTime, today, linkState, cleanImage, view, setView,
     cat: id => CATS.find(c => c.id === id),
     staffName: id => (STAFF[id] || {}).name || '',
     promptsFor: band => band === 'y78' ? PROMPTS.y78 : band === 'y6' ? PROMPTS.y6 : PROMPTS.young,

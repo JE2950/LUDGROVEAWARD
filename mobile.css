@@ -1,0 +1,54 @@
+/* Mobile view. Every rule is scoped to html.mobile-view, which trail.js sets from the
+   header toggle (and by default on a narrow screen). !important is needed because the
+   pages lay themselves out with inline styles. Screen only, so printing is unchanged. */
+
+@media screen {
+  /* On a wide screen, show the page as a phone-width column. */
+  @media (min-width: 641px) {
+    html.mobile-view { background: var(--color-neutral-300, #d9d5cc); height: auto; min-height: 100%; }
+    /* The runtime pins body and its root to the window height; let the frame grow with the page. */
+    html.mobile-view #dc-root, html.mobile-view #dc-root > .sc-host { height: auto; }
+    html.mobile-view body {
+      height: auto;
+      max-width: 390px;
+      min-height: calc(100vh - 48px);
+      margin: 24px auto !important;
+      border: 1px solid var(--color-divider);
+      border-radius: 28px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+      overflow: hidden;
+    }
+  }
+
+  html.mobile-view body { overflow-wrap: break-word; }
+  html.mobile-view main { padding: var(--space-6) var(--space-4) !important; }
+  html.mobile-view img { max-width: 100%; }
+
+  /* Layout hooks added to the multi-column sections. */
+  html.mobile-view .m-stack { grid-template-columns: minmax(0, 1fr) !important; }
+  html.mobile-view .m-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; row-gap: var(--space-3); }
+  html.mobile-view .m-tight { gap: 12px !important; }
+  html.mobile-view .m-steps { gap: 4px !important; }
+  html.mobile-view .m-steps li { font-size: 11px !important; }
+  /* Sign-off queue: the action buttons move under the entry instead of squeezing it. */
+  html.mobile-view .m-actions-below { grid-template-columns: 28px minmax(0, 1fr) !important; gap: var(--space-3) !important; }
+  html.mobile-view .m-actions-below > :nth-child(3) { grid-column: 2; flex-direction: row !important; flex-wrap: wrap; }
+
+  /* Header: brand on its own row, then links and controls wrap beneath. */
+  html.mobile-view .m-nav { padding: var(--space-3) var(--space-4) !important; gap: var(--space-3) !important; }
+  html.mobile-view .m-nav > a { flex-basis: 100%; }
+  html.mobile-view .m-nav > div { flex-wrap: wrap; gap: var(--space-2) var(--space-4) !important; }
+
+  /* Display type sized for a phone. */
+  html.mobile-view h1 { font-size: 34px !important; line-height: 1.08 !important; }
+  html.mobile-view h2 { font-size: 26px !important; }
+
+  /* Wide tables scroll sideways inside their own box instead of stretching the page. */
+  html.mobile-view .table { display: block; overflow-x: auto; }
+
+  /* The landscape certificate reflows as a portrait card rather than shrinking to fit. */
+  html.mobile-view .m-cert { aspect-ratio: auto !important; padding: 12px !important; }
+  html.mobile-view .m-cert-inner { height: auto !important; padding: 32px 18px !important; }
+  html.mobile-view .m-display { font-size: 40px !important; }
+  html.mobile-view .m-display-sm { font-size: 28px !important; }
+}

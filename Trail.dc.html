@@ -10,6 +10,7 @@
 <helmet>
 <title>My trail</title>
 <link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="mobile.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
 <script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
 <script src="trail.js"></script>
@@ -35,7 +36,7 @@
   </sc-if>
 
   <section style="margin-top: var(--space-8);" aria-label="Stages">
-    <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--color-divider);">
+    <div class="m-cols-2" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--color-divider);">
       <sc-for list="{{ stages }}" as="s" hint-placeholder-count="5">
         <div style="padding: var(--space-3) var(--space-2) 0; border-top: 3px solid {{ s.line }}; margin-top: -2px;">
           <div style="font-size: 12px; color: var(--color-neutral-700);">{{ s.years }}</div>

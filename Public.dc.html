@@ -12,6 +12,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
 <link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="mobile.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
 <script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
 <script src="trail.js"></script>
@@ -35,7 +36,7 @@
     <h1 style="font-size: 56px; font-weight: 500; margin-bottom: var(--space-2);">{{ first }}'s trail</h1>
     <p style="font-size: 17px; margin: 0;">{{ stageLine }}</p>
 
-    <section style="margin-top: var(--space-8); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--color-divider);">
+    <section class="m-stack" style="margin-top: var(--space-8); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--color-divider);">
       <sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
         <div style="padding: var(--space-4) var(--space-3) var(--space-4) 0; border-bottom: 1px solid var(--color-divider); display: flex; gap: var(--space-3); align-items: center;">
           <img src="{{ c.icon }}" alt="" style="width: 26px; height: 26px;">
@@ -51,7 +52,7 @@
       <h2 style="font-size: 30px;">In his own words</h2>
       <div style="display: flex; flex-direction: column; gap: var(--space-6);">
         <sc-for list="{{ highlights }}" as="h" hint-placeholder-count="2">
-          <article style="display: grid; grid-template-columns: {{ h.cols }}; gap: var(--space-4);">
+          <article class="m-stack" style="display: grid; grid-template-columns: {{ h.cols }}; gap: var(--space-4);">
             <div>
               <div style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent-700);">{{ h.catName }}</div>
               <h3 style="font-size: 24px; margin: 2px 0 var(--space-2);">{{ h.title }}</h3>

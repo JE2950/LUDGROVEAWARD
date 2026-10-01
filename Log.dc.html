@@ -10,6 +10,7 @@
 <helmet>
 <title>Log a challenge</title>
 <link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="mobile.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
 <script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
 <script src="trail.js"></script>
@@ -42,7 +43,7 @@
     </div>
 
     <sc-if value="{{ young }}" hint-placeholder-val="{{ false }}">
-      <ol style="list-style: none; padding: 0; margin: var(--space-6) 0 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-2);">
+      <ol class="m-steps" style="list-style: none; padding: 0; margin: var(--space-6) 0 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-2);">
         <sc-for list="{{ stepper }}" as="s" hint-placeholder-count="5">
           <li style="border-top: 3px solid {{ s.line }}; padding-top: 6px; font-size: 14px; color: {{ s.color }};">{{ s.n }}. {{ s.label }}</li>
         </sc-for>
@@ -101,7 +102,7 @@
             </div>
           </sc-if>
         </div>
-        <div style="margin-top: var(--space-4); display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: var(--space-4); align-items: start;">
+        <div class="m-stack" style="margin-top: var(--space-4); display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: var(--space-4); align-items: start;">
           <label style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; aspect-ratio: 4 / 3; border: 1px dashed var(--color-divider); border-radius: var(--radius-md); cursor: pointer; overflow: hidden; font-size: 14px; color: var(--color-neutral-700);">
             <input type="file" accept="image/*" onChange="{{ onPhoto }}" style="position: absolute; opacity: 0; width: 0; height: 0;">
             <sc-if value="{{ hasPhoto }}" hint-placeholder-val="{{ false }}">

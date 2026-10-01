@@ -10,6 +10,7 @@
 <helmet>
 <title>Certificates and keepsake</title>
 <link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="mobile.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
 <script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
 <script src="trail.js"></script>
@@ -40,17 +41,17 @@
     <sc-if value="{{ noCerts }}" hint-placeholder-val="{{ false }}">
       <p class="no-print" style="color: var(--color-neutral-700);">No stages finished yet. Below is how the certificate will look when {{ first }} completes {{ curStage }}.</p>
     </sc-if>
-    <div style="max-width: 1000px; margin: 0 auto; aspect-ratio: 297 / 210; background: #fff; box-shadow: var(--shadow-md); padding: 28px;">
-      <div style="height: 100%; border: 1px solid var(--color-accent); outline: 1px solid var(--color-accent); outline-offset: -8px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 72px; gap: 10px; opacity: {{ certOpacity }};">
+    <div class="m-cert" style="max-width: 1000px; margin: 0 auto; aspect-ratio: 297 / 210; background: #fff; box-shadow: var(--shadow-md); padding: 28px;">
+      <div class="m-cert-inner" style="height: 100%; border: 1px solid var(--color-accent); outline: 1px solid var(--color-accent); outline-offset: -8px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 72px; gap: 10px; opacity: {{ certOpacity }};">
         <img src="assets/l-mark.png" alt="Ludgrove" style="width: 64px; height: 64px; object-fit: cover; border-radius: var(--radius-md);">
         <div style="font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--color-accent-700); margin-top: 6px;">Ludgrove School</div>
         <div style="font-family: var(--font-heading); font-size: 26px; font-style: italic;">{{ awardName }}</div>
         <div style="font-size: 15px; margin-top: 16px;">This is to record that</div>
-        <div style="font-family: var(--font-heading); font-size: 64px; font-weight: 500; line-height: 1;">{{ certName }}</div>
+        <div class="m-display" style="font-family: var(--font-heading); font-size: 64px; font-weight: 500; line-height: 1;">{{ certName }}</div>
         <div style="font-size: 15px;">completed the</div>
-        <div style="font-family: var(--font-heading); font-size: 40px; font-weight: 500; color: var(--color-accent-800); line-height: 1.1;">{{ certStage }} stage</div>
+        <div class="m-display-sm" style="font-family: var(--font-heading); font-size: 40px; font-weight: 500; color: var(--color-accent-800); line-height: 1.1;">{{ certStage }} stage</div>
         <div style="font-size: 15px; max-width: 34em;">{{ certLine }}</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px; width: 100%; margin-top: 28px; font-size: 13px;">
+        <div class="m-tight" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px; width: 100%; margin-top: 28px; font-size: 13px;">
           <div style="border-top: 1px solid var(--color-divider); padding-top: 6px;">{{ certDm }}<br><span style="color: var(--color-neutral-700);">Division Master</span></div>
           <div style="padding-top: 6px; font-variant-numeric: tabular-nums;">{{ certDate }}</div>
           <div style="border-top: 1px solid var(--color-divider); padding-top: 6px;">The Headmaster<br><span style="color: var(--color-neutral-700);">Ludgrove School</span></div>
@@ -61,11 +62,11 @@
 
   <sc-if value="{{ tabBook }}" hint-placeholder-val="{{ false }}">
     <p class="no-print" style="max-width: 46em; font-size: 15px; color: var(--color-neutral-700);">{{ bookNote }}</p>
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: var(--space-6);">
+    <div class="m-stack" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: var(--space-6);">
       <div style="aspect-ratio: 210 / 297; background: #fff; box-shadow: var(--shadow-md); padding: 36px; display: flex; flex-direction: column; gap: 14px;">
         <img class="plate" src="assets/ludgrove-house.jpg" alt="Ludgrove" style="width: 100%; aspect-ratio: 4 / 3; object-fit: cover;">
         <div style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-accent-700); margin-top: 18px;">Ludgrove Life</div>
-        <div style="font-family: var(--font-heading); font-size: 48px; font-weight: 500; line-height: 1;">{{ fullName }}</div>
+        <div class="m-display" style="font-family: var(--font-heading); font-size: 48px; font-weight: 500; line-height: 1;">{{ fullName }}</div>
         <div style="font-size: 15px;">{{ yearsSpan }}</div>
         <div style="margin-top: auto; font-family: var(--font-heading); font-style: italic; font-size: 17px;">{{ awardName }}</div>
       </div>
