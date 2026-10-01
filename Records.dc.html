@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Certificates and keepsake</title>
+<link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
+<script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
+<script src="trail.js"></script>
+<style>body{margin:0;font-size:16px;background:var(--color-bg)} a{color:var(--color-accent-700)} a:hover{color:var(--color-accent-800)} @media print{.no-print{display:none!important} body{background:#fff}}</style>
+</helmet>
+<dc-import name="Header" page="records" hint-size="100%,96px"></dc-import>
+<main style="max-width: 1280px; margin: 0 auto; padding: var(--space-8) var(--space-6);">
+  <div class="no-print" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: var(--space-4); margin-bottom: var(--space-6);">
+    <div>
+      <p style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin-bottom: var(--space-2);">{{ kicker }}</p>
+      <h1 style="font-size: 44px; font-weight: 500; margin: 0;">Certificates and keepsake</h1>
+    </div>
+    <div style="display: flex; gap: var(--space-3); align-items: center;">
+      <div class="seg">
+        <label class="seg-opt" style="font-size: 15px; padding: 10px 16px;"><input type="radio" name="tab" checked="{{ tabCert }}" onChange="{{ toCert }}">Certificates</label>
+        <label class="seg-opt" style="font-size: 15px; padding: 10px 16px;"><input type="radio" name="tab" checked="{{ tabBook }}" onChange="{{ toBook }}">Ludgrove Life keepsake</label>
+      </div>
+      <button type="button" class="btn btn-secondary" onClick="{{ print }}">Print</button>
+    </div>
+  </div>
+
+  <sc-if value="{{ tabCert }}" hint-placeholder-val="{{ true }}">
+    <div class="no-print" style="display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4);">
+      <sc-for list="{{ certs }}" as="c" hint-placeholder-count="2">
+        <button type="button" onClick="{{ c.pick }}" style="font: inherit; font-size: 15px; padding: 8px 14px; cursor: pointer; background: transparent; border: 1px solid {{ c.border }}; box-shadow: {{ c.ring }}; border-radius: var(--radius-md); color: var(--color-text);">{{ c.label }}</button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ noCerts }}" hint-placeholder-val="{{ false }}">
+      <p class="no-print" style="color: var(--color-neutral-700);">No stages finished yet. Below is how the certificate will look when {{ first }} completes {{ curStage }}.</p>
+    </sc-if>
+    <div style="max-width: 1000px; margin: 0 auto; aspect-ratio: 297 / 210; background: #fff; box-shadow: var(--shadow-md); padding: 28px;">
+      <div style="height: 100%; border: 1px solid var(--color-accent); outline: 1px solid var(--color-accent); outline-offset: -8px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 72px; gap: 10px; opacity: {{ certOpacity }};">
+        <img src="assets/l-mark.png" alt="Ludgrove" style="width: 64px; height: 64px; object-fit: cover; border-radius: var(--radius-md);">
+        <div style="font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--color-accent-700); margin-top: 6px;">Ludgrove School</div>
+        <div style="font-family: var(--font-heading); font-size: 26px; font-style: italic;">{{ awardName }}</div>
+        <div style="font-size: 15px; margin-top: 16px;">This is to record that</div>
+        <div style="font-family: var(--font-heading); font-size: 64px; font-weight: 500; line-height: 1;">{{ certName }}</div>
+        <div style="font-size: 15px;">completed the</div>
+        <div style="font-family: var(--font-heading); font-size: 40px; font-weight: 500; color: var(--color-accent-800); line-height: 1.1;">{{ certStage }} stage</div>
+        <div style="font-size: 15px; max-width: 34em;">{{ certLine }}</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px; width: 100%; margin-top: 28px; font-size: 13px;">
+          <div style="border-top: 1px solid var(--color-divider); padding-top: 6px;">{{ certDm }}<br><span style="color: var(--color-neutral-700);">Division Master</span></div>
+          <div style="padding-top: 6px; font-variant-numeric: tabular-nums;">{{ certDate }}</div>
+          <div style="border-top: 1px solid var(--color-divider); padding-top: 6px;">The Headmaster<br><span style="color: var(--color-neutral-700);">Ludgrove School</span></div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ tabBook }}" hint-placeholder-val="{{ false }}">
+    <p class="no-print" style="max-width: 46em; font-size: 15px; color: var(--color-neutral-700);">{{ bookNote }}</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: var(--space-6);">
+      <div style="aspect-ratio: 210 / 297; background: #fff; box-shadow: var(--shadow-md); padding: 36px; display: flex; flex-direction: column; gap: 14px;">
+        <img class="plate" src="assets/ludgrove-house.jpg" alt="Ludgrove" style="width: 100%; aspect-ratio: 4 / 3; object-fit: cover;">
+        <div style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-accent-700); margin-top: 18px;">Ludgrove Life</div>
+        <div style="font-family: var(--font-heading); font-size: 48px; font-weight: 500; line-height: 1;">{{ fullName }}</div>
+        <div style="font-size: 15px;">{{ yearsSpan }}</div>
+        <div style="margin-top: auto; font-family: var(--font-heading); font-style: italic; font-size: 17px;">{{ awardName }}</div>
+      </div>
+      <div style="aspect-ratio: 210 / 297; background: #fff; box-shadow: var(--shadow-md); padding: 36px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-accent-700);">From the Headmaster</div>
+        <p style="font-family: var(--font-heading); font-size: 21px; line-height: 1.4; font-style: italic; text-align: justify; hyphens: auto;">{{ headComment }}</p>
+        <div style="margin-top: auto; font-size: 13px; color: var(--color-neutral-700);">Written in {{ first }}'s final term.</div>
+      </div>
+      <div style="aspect-ratio: 210 / 297; background: #fff; box-shadow: var(--shadow-md); padding: 36px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-accent-700);">The trail</div>
+        <sc-for list="{{ bookCats }}" as="c" hint-placeholder-count="6">
+          <div style="border-top: 1px solid var(--color-divider); padding-top: 8px; display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 10px; align-items: start;">
+            <img src="{{ c.icon }}" alt="" style="width: 20px; height: 20px; margin-top: 2px;">
+            <div>
+              <div style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">{{ c.name }}</div>
+              <div style="font-size: 12px; line-height: 1.4;">{{ c.list }}</div>
+            </div>
+            <div style="font-size: 13px; font-variant-numeric: tabular-nums;">{{ c.n }}</div>
+          </div>
+        </sc-for>
+        <div style="margin-top: auto; font-size: 13px;">{{ stagesLine }}</div>
+      </div>
+      <sc-for list="{{ bookHighlights }}" as="h" hint-placeholder-count="2">
+        <div style="aspect-ratio: 210 / 297; background: #fff; box-shadow: var(--shadow-md); padding: 36px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-accent-700);">{{ h.kicker }}</div>
+          <div style="font-family: var(--font-heading); font-size: 30px; font-weight: 500; line-height: 1.1;">{{ h.title }}</div>
+          <div style="font-size: 13px; color: var(--color-neutral-700);">{{ h.meta }}</div>
+          <sc-for list="{{ h.answers }}" as="a" hint-placeholder-count="3">
+            <div><div style="font-size: 12px; color: var(--color-neutral-700);">{{ a.q }}</div><div style="font-size: 15px; font-style: italic;">{{ a.a }}</div></div>
+          </sc-for>
+          <sc-if value="{{ h.hasComment }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top: auto; border-top: 1px solid var(--color-divider); padding-top: 8px; font-size: 13px;">{{ h.comment }}</div>
+          </sc-if>
+        </div>
+      </sc-for>
+      <div style="aspect-ratio: 210 / 297; background: #fff; box-shadow: var(--shadow-md); padding: 36px; display: flex; flex-direction: column; gap: 22px;">
+        <div style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-accent-700);">A letter to my future self</div>
+        <sc-for list="{{ lines }}" as="l" hint-placeholder-count="12"><div style="border-bottom: 1px solid var(--color-divider); height: 1px;"></div></sc-for>
+      </div>
+    </div>
+  </sc-if>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { tab: 'cert', cert: null };
+  componentDidMount() {
+    this._u = () => this.forceUpdate();
+    window.addEventListener('trail-change', this._u);
+    const tab = new URLSearchParams(location.search).get('tab');
+    if (tab === 'book') this.setState({ tab: 'book' });
+    if (!window.Trail) this._t = setInterval(() => { if (window.Trail) { clearInterval(this._t); this.forceUpdate(); } }, 40);
+  }
+  componentWillUnmount() { window.removeEventListener('trail-change', this._u); clearInterval(this._t); }
+  renderVals() {
+    const T = window.Trail;
+    if (!T) return { certs: [], bookCats: [], bookHighlights: [], lines: [] };
+    const pu = T.pupilFor(), S = T.state;
+    const done = pu.completed;
+    const sel = this.state.cert || (done.length ? done[done.length - 1].band : pu.band);
+    const rec = done.find(c => c.band === sel);
+    const appr = T.entriesFor(pu.id).filter(e => e.status === 'approved');
+    const startYear = 2026 - (pu.year - 4);
+    const prompts = T.promptsFor(pu.band);
+    const starred = appr.filter(e => e.starred).slice(0, 5);
+    return {
+      kicker: pu.first + ' · Year ' + pu.year,
+      tabCert: this.state.tab === 'cert', tabBook: this.state.tab === 'book',
+      toCert: () => this.setState({ tab: 'cert' }), toBook: () => this.setState({ tab: 'book' }),
+      print: () => window.print(),
+      certs: done.map(c => ({ label: T.STAGES[c.band].years + ': ' + T.stageName(c.band), border: c.band === sel ? 'var(--color-accent)' : 'var(--color-divider)', ring: c.band === sel ? 'inset 0 0 0 1px var(--color-accent)' : 'none', pick: () => this.setState({ cert: c.band }) })),
+      noCerts: done.length === 0, first: pu.first, curStage: T.stageName(pu.band),
+      awardName: S.awardName, certName: pu.first + ' ' + pu.surname, certStage: T.stageName(sel),
+      certLine: 'with challenges in Service, Sport & Fitness, Creative, Discovery, Adventure and Life Skills, showing kindness, courage and curiosity.',
+      certDm: T.staffName(pu.dm), certDate: rec ? T.fmt(rec.date) : 'Preview', certOpacity: rec ? 1 : 0.55,
+      bookNote: pu.year >= 8 ? 'Produced in Hugo\'s final term as an A4 book for the family, with a digital copy. Only photos the family has consented to are included. These pages are a preview.' : 'The keepsake is produced in a boy\'s final term. This preview uses ' + pu.first + '\'s trail so far.',
+      fullName: pu.first + ' ' + pu.surname, yearsSpan: 'Ludgrove, ' + startYear + '–' + (startYear + 5),
+      headComment: pu.first + ' arrived quiet and a little unsure, and leaves as a boy who volunteers first. His expedition planning in Year 8 showed real care for the boys around him. He has done what he set his hand to with all his might, and we are very proud of him.',
+      bookCats: T.CATS.map(c => { const es = appr.filter(e => e.cat === c.id); return { name: c.name, icon: c.icon, n: es.length, list: es.slice(0, 4).map(e => e.title).join('; ') || '—' }; }),
+      stagesLine: 'Stages completed: ' + (done.length ? done.map(c => T.stageName(c.band)).join(', ') : 'none yet'),
+      bookHighlights: starred.map((e, i) => {
+        const last = e.comments[e.comments.length - 1];
+        return { kicker: 'Highlight ' + (i + 1) + ' · ' + T.cat(e.cat).name, title: e.title, meta: T.fmt(e.date) + (e.measure ? ' · ' + e.measure : ''),
+          answers: prompts.map(q => ({ q: q.q, a: e.reflection[q.k] })).filter(a => a.a), hasComment: !!last, comment: last ? '“' + last.text + '” ' + T.staffName(last.by) : '' };
+      }),
+      lines: Array.from({ length: 14 }, (_, i) => i)
+    };
+  }
+}
+</script>
+</body>
+</html>

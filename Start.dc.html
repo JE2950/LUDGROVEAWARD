@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Ludgrove award prototype</title>
+<link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
+<script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
+<script src="trail.js"></script>
+<style>body{margin:0;font-size:16px;background:var(--color-bg)} a{color:var(--color-accent-700)} a:hover{color:var(--color-accent-800)}</style>
+</helmet>
+<dc-import name="Header" page="start" hint-size="100%,96px"></dc-import>
+<main style="max-width: 1280px; margin: 0 auto; padding: var(--space-8) var(--space-6);">
+  <section style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: var(--space-8); align-items: center;">
+    <div>
+      <p style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin-bottom: var(--space-3);">Years 4 to 8 · Working prototype</p>
+      <h1 style="font-size: 60px; font-weight: 500; line-height: 1.02; margin-bottom: var(--space-4);">{{ awardName }}</h1>
+      <p style="font-size: 19px; line-height: 1.55; max-width: 34em; text-wrap: pretty;">A record of what each boy tries, finds hard and keeps at across his five years. Six categories, a stage each year and a top award by application in Year 8.</p>
+      <p style="font-size: 16px; font-style: italic; color: var(--color-neutral-700); max-width: 34em;">“Whatsoever thy hand findeth to do, do it with all thy might.”</p>
+    </div>
+    <figure>
+      <img class="plate" src="assets/ludgrove-house.jpg" alt="Ludgrove School across the lawn" style="width: 100%; aspect-ratio: 3 / 2; object-fit: cover;">
+    </figure>
+  </section>
+
+  <hr class="hr" style="margin: var(--space-8) 0;">
+
+  <section>
+    <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-4);">
+      <h2 style="font-size: 34px; margin: 0;">Choose who to sign in as</h2>
+      <p style="margin: 0; font-size: 14px; color: var(--color-neutral-700);">In production each person signs in with their own school account.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-4);">
+      <sc-for list="{{ personas }}" as="p" hint-placeholder-count="5">
+        <button type="button" onClick="{{ p.go }}" class="card" style="text-align: left; font: inherit; color: inherit; cursor: pointer; padding: var(--space-4); min-height: 210px; border-color: {{ p.border }};" style-hover="background: var(--color-surface);">
+          <span class="card-kicker" style="color: var(--color-accent-700);">{{ p.kind }}</span>
+          <span style="font-family: var(--font-heading); font-size: 26px; font-weight: 600; line-height: 1.1;">{{ p.label }}</span>
+          <span style="font-size: 14px; line-height: 1.5; flex: 1;">{{ p.note }}</span>
+          <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-neutral-700); border-top: 1px solid var(--color-divider); padding-top: var(--space-2);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            {{ p.signin }}
+          </span>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+
+  <hr class="hr" style="margin: var(--space-8) 0;">
+
+  <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-8);">
+    <div>
+      <h3 style="font-size: 24px;">Working name</h3>
+      <p style="font-size: 14px; color: var(--color-neutral-700);">For SLT to choose. Changes the name everywhere in the demo.</p>
+      <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+        <sc-for list="{{ names }}" as="n" hint-placeholder-count="4">
+          <label class="radio" style="font-size: 16px;">
+            <input type="radio" name="award-name" checked="{{ n.on }}" onChange="{{ n.pick }}">
+            <span class="dot"></span>{{ n.label }}
+          </label>
+        </sc-for>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-size: 24px;">Stages</h3>
+      <p style="font-size: 14px; color: var(--color-neutral-700);">Switch the vocabulary with the control in the header.</p>
+      <table class="table" style="font-size: 15px;">
+        <tbody>
+          <sc-for list="{{ stages }}" as="s" hint-placeholder-count="5">
+            <tr><td style="width: 40%; color: var(--color-neutral-700);">{{ s.years }}</td><td style="font-family: var(--font-heading); font-size: 19px;">{{ s.name }}</td></tr>
+          </sc-for>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3 style="font-size: 24px;">Demo data</h3>
+      <p style="font-size: 14px; color: var(--color-neutral-700);">Changes you make are saved in this browser so the story carries between screens. Reset before each run-through.</p>
+      <button type="button" class="btn btn-secondary" onClick="{{ reset }}">{{ resetLabel }}</button>
+    </div>
+  </section>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { done: false };
+  componentDidMount() {
+    this._u = () => this.forceUpdate();
+    window.addEventListener('trail-change', this._u);
+    if (!window.Trail) this._t = setInterval(() => { if (window.Trail) { clearInterval(this._t); this.forceUpdate(); } }, 40);
+  }
+  componentWillUnmount() { window.removeEventListener('trail-change', this._u); clearInterval(this._t); }
+  renderVals() {
+    const T = window.Trail;
+    if (!T) return { personas: [], names: [], stages: [] };
+    const S = T.state;
+    const kinds = { pupil: 'Pupil', staff: 'Staff', parent: 'Parent' };
+    const NAMES = ['The [Award Name]', 'The Ludgrove Trail', 'The Dunn Award', 'With All Thy Might'];
+    return {
+      awardName: S.awardName,
+      personas: T.PERSONAS.map(p => ({ ...p, kind: kinds[p.role], border: p.id === S.persona ? 'var(--color-accent)' : 'var(--color-divider)', go: () => { T.setPersona(p.id); location.href = p.home; } })),
+      names: NAMES.map(n => ({ label: n, on: S.awardName === n, pick: () => T.setAwardName(n) })),
+      stages: [...T.BAND_ORDER.map(b => ({ years: T.STAGES[b].years, name: T.stageName(b) })), { years: 'Year 8, by application', name: T.topName() }],
+      reset: () => { T.reset(); this.setState({ done: true }); setTimeout(() => this.setState({ done: false }), 2000); },
+      resetLabel: this.state.done ? 'Demo data reset' : 'Reset demo data'
+    };
+  }
+}
+</script>
+</body>
+</html>

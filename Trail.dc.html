@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>My trail</title>
+<link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
+<script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
+<script src="trail.js"></script>
+<style>body{margin:0;font-size:16px;background:var(--color-bg)} a{color:var(--color-accent-700)} a:hover{color:var(--color-accent-800)}</style>
+</helmet>
+<dc-import name="Header" page="trail" hint-size="100%,96px"></dc-import>
+<main style="max-width: 1280px; margin: 0 auto; padding: var(--space-8) var(--space-6);">
+  <section style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: var(--space-6);">
+    <div>
+      <p style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin-bottom: var(--space-2);">{{ kicker }}</p>
+      <h1 style="font-size: {{ h1Size }}; font-weight: 500; margin: 0;">{{ title }}</h1>
+    </div>
+    <sc-if value="{{ canAct }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; gap: var(--space-2);">
+        <a class="btn btn-primary" href="Log.dc.html" style="font-size: {{ btnSize }}; padding: 12px 20px;">Log a challenge</a>
+        <a class="btn btn-secondary" href="Propose.dc.html" style="font-size: {{ btnSize }}; padding: 12px 20px;">My own challenge</a>
+      </div>
+    </sc-if>
+  </section>
+
+  <sc-if value="{{ isParent }}" hint-placeholder-val="{{ false }}">
+    <p style="margin-top: var(--space-4); padding: var(--space-3) var(--space-4); border: 1px solid var(--color-divider); border-radius: var(--radius-md); font-size: 14px;">You are seeing entries a member of staff has signed off. Kit's drafts and reflections in progress stay private to him, and his trail tells him that you can see signed-off entries.</p>
+  </sc-if>
+
+  <section style="margin-top: var(--space-8);" aria-label="Stages">
+    <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--color-divider);">
+      <sc-for list="{{ stages }}" as="s" hint-placeholder-count="5">
+        <div style="padding: var(--space-3) var(--space-2) 0; border-top: 3px solid {{ s.line }}; margin-top: -2px;">
+          <div style="font-size: 12px; color: var(--color-neutral-700);">{{ s.years }}</div>
+          <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 600; color: {{ s.color }};">{{ s.name }}</div>
+          <div style="font-size: 12px; color: var(--color-neutral-700);">{{ s.state }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="margin-top: var(--space-8);">
+    <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-4);">
+      <h2 style="font-size: 32px; margin: 0;">{{ stageHeading }}</h2>
+      <p style="margin: 0; font-size: 15px;">{{ progressLine }}</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-4);">
+      <sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+        <div class="card" style="padding: var(--space-4); gap: var(--space-3);">
+          <div style="display: flex; align-items: center; gap: var(--space-3);">
+            <img src="{{ c.icon }}" alt="" style="width: 30px; height: 30px;">
+            <div style="flex: 1;">
+              <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 600; line-height: 1.1;">{{ c.name }}</div>
+              <div style="font-size: 12px; color: var(--color-neutral-700);">{{ c.values }}</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <sc-for list="{{ c.dots }}" as="d" hint-placeholder-count="3">
+              <span style="width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--color-accent); background: {{ d.bg }};"></span>
+            </sc-for>
+            <span style="margin-left: auto; font-size: 14px; font-variant-numeric: tabular-nums;">{{ c.count }}</span>
+          </div>
+          <div style="font-size: 13px; color: var(--color-neutral-700);">{{ c.extra }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <sc-if value="{{ hasAttention }}" hint-placeholder-val="{{ false }}">
+    <section style="margin-top: var(--space-8);">
+      <h2 style="font-size: 28px;">Waiting for you</h2>
+      <div style="display: flex; flex-direction: column; border-top: 1px solid var(--color-divider);">
+        <sc-for list="{{ attention }}" as="e" hint-placeholder-count="2">
+          <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-4); align-items: center; padding: var(--space-3) 0; border-bottom: 1px solid var(--color-divider);">
+            <div>
+              <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center;">
+                <span style="font-family: var(--font-heading); font-size: 20px; font-weight: 600;">{{ e.title }}</span>
+                <span class="{{ e.tagClass }}">{{ e.statusLabel }}</span>
+              </div>
+              <sc-if value="{{ e.hasComment }}" hint-placeholder-val="{{ false }}">
+                <p style="margin: 6px 0 0; font-size: 15px;"><span style="color: var(--color-neutral-700);">{{ e.commentBy }}:</span> <em>{{ e.comment }}</em></p>
+              </sc-if>
+            </div>
+            <a class="btn btn-primary" href="{{ e.editHref }}">{{ e.editLabel }}</a>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </sc-if>
+
+  <section style="margin-top: var(--space-8);">
+    <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-3);">
+      <h2 style="font-size: 28px;">{{ listHeading }}</h2>
+      <sc-if value="{{ showParentNote }}" hint-placeholder-val="{{ false }}">
+        <p style="margin: 0; font-size: 13px; color: var(--color-neutral-700);">Your parents can see entries once they are signed off.</p>
+      </sc-if>
+    </div>
+    <div style="display: flex; flex-direction: column; border-top: 1px solid var(--color-divider);">
+      <sc-for list="{{ entries }}" as="e" hint-placeholder-count="5">
+        <div style="display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: var(--space-3); padding: var(--space-3) 0; border-bottom: 1px solid var(--color-divider); align-items: start;">
+          <img src="{{ e.icon }}" alt="{{ e.catName }}" style="width: 26px; height: 26px; margin-top: 2px;">
+          <div>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center;">
+              <span style="font-family: var(--font-heading); font-size: 20px; font-weight: 600;">{{ e.title }}</span>
+              <sc-if value="{{ e.own }}" hint-placeholder-val="{{ false }}"><span class="tag tag-outline">My own challenge</span></sc-if>
+              <sc-if value="{{ e.group }}" hint-placeholder-val="{{ false }}"><span class="tag tag-neutral">School event</span></sc-if>
+            </div>
+            <div style="font-size: 13px; color: var(--color-neutral-700);">{{ e.meta }}</div>
+            <sc-if value="{{ e.hasQuote }}" hint-placeholder-val="{{ false }}">
+              <p style="margin: 6px 0 0; font-size: 15px; font-style: italic; max-width: 60em;">“{{ e.quote }}”</p>
+            </sc-if>
+            <sc-if value="{{ e.hasEffort }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;">
+                <sc-for list="{{ e.effort }}" as="ef" hint-placeholder-count="1"><span class="tag tag-accent">{{ ef }}</span></sc-for>
+              </div>
+            </sc-if>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+            <span class="{{ e.tagClass }}">{{ e.statusLabel }}</span>
+            <sc-if value="{{ e.canStar }}" hint-placeholder-val="{{ false }}">
+              <button type="button" class="btn btn-ghost" style="font-size: 13px; color: {{ e.starColor }};" onClick="{{ e.star }}" aria-pressed="{{ e.starred }}">{{ e.starLabel }}</button>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    this._u = () => this.forceUpdate();
+    window.addEventListener('trail-change', this._u);
+    if (!window.Trail) this._t = setInterval(() => { if (window.Trail) { clearInterval(this._t); this.forceUpdate(); } }, 40);
+  }
+  componentWillUnmount() { window.removeEventListener('trail-change', this._u); clearInterval(this._t); }
+  renderVals() {
+    const T = window.Trail;
+    if (!T) return { stages: [], cats: [], entries: [], attention: [] };
+    const p = T.persona(), pu = T.pupilFor(), isParent = p.role === 'parent', young = T.isYoung(pu.band);
+    const prog = T.progress(pu.id), st = T.STAGES[pu.band];
+    const STATUS = { draft: ['Draft', 'tag tag-neutral'], submitted: ['Waiting for sign-off', 'tag tag-outline'], approved: ['Signed off', 'tag tag-accent'], more: ['Needs a bit more', 'tag tag-outline'] };
+    const doneBands = pu.completed.map(c => c.band);
+    const stages = [...T.BAND_ORDER.map(b => {
+      const cur = b === pu.band, done = doneBands.includes(b);
+      return { years: T.STAGES[b].years, name: T.stageName(b), line: cur ? 'var(--color-accent)' : done ? 'var(--color-accent-300)' : 'transparent', color: cur ? 'var(--color-accent-700)' : done ? 'var(--color-text)' : 'var(--color-neutral-500)', state: done ? 'Completed ' + T.fmt(pu.completed.find(c => c.band === b).date) : cur ? 'In progress · ' + prog.pct + '%' : 'Still to come' };
+    }), { years: 'Year 8, by application', name: T.topName(), line: 'transparent', color: 'var(--color-neutral-500)', state: pu.year >= 8 ? 'Applications open' : 'Year 8' }];
+    const cats = prog.cats.map(c => ({
+      name: c.cat.name, icon: c.cat.icon,
+      values: [...c.cat.values, ...c.cat.grit].join(' · '),
+      dots: Array.from({ length: c.need }, (_, i) => ({ bg: i < c.done ? 'var(--color-accent)' : 'transparent' })),
+      count: Math.min(c.done, c.need) + ' of ' + c.need,
+      extra: c.done > c.need ? (c.done - c.need) + ' more beyond the stage' : c.complete ? 'Done for this stage' : c.cat.blurb
+    }));
+    let list = T.entriesFor(pu.id);
+    if (isParent) list = list.filter(e => e.status === 'approved');
+    const firstAnswer = (r) => { const v = Object.entries(r || {}).find(([k, v]) => v && !['grit', 'feeling'].includes(k)); return v ? v[1] : ''; };
+    const map = e => {
+      const c = T.cat(e.cat), [label, cls] = STATUS[e.status], last = e.comments[e.comments.length - 1];
+      return {
+        title: e.title, icon: c.icon, catName: c.name, own: !!e.own, group: !!e.group,
+        meta: [c.name, T.fmt(e.date), e.measure, e.supervisor ? 'Sign-off: ' + T.staffName(e.supervisor) : ''].filter(Boolean).join(' · '),
+        quote: firstAnswer(e.reflection), hasQuote: !!firstAnswer(e.reflection),
+        effort: e.effort || [], hasEffort: (e.effort || []).length > 0,
+        statusLabel: label, tagClass: cls,
+        hasComment: !!last, comment: last ? last.text : '', commentBy: last ? T.staffName(last.by) : '',
+        canStar: !isParent && e.status === 'approved' && !e.group, starred: !!e.starred,
+        starLabel: e.starred ? '★ Highlight' : '☆ Make a highlight', starColor: e.starred ? 'var(--color-accent-800)' : 'var(--color-neutral-700)',
+        star: () => T.toggleStar(e.id),
+        editHref: 'Log.dc.html?edit=' + e.id, editLabel: e.status === 'draft' ? 'Finish it' : 'Add more and resend'
+      };
+    };
+    const attention = isParent ? [] : list.filter(e => e.status === 'more' || e.status === 'draft').map(map);
+    return {
+      kicker: [pu.year === 4 ? 'Year 4' : 'Year ' + pu.year, 'Division ' + pu.division, isParent ? 'Read-only parent view' : ''].filter(Boolean).join(' · '),
+      title: isParent ? "Kit's trail" : 'Hello, ' + pu.first,
+      h1Size: young ? '56px' : '48px', btnSize: young ? '18px' : '15px',
+      canAct: !isParent, isParent, showParentNote: !isParent,
+      stages, cats,
+      stageHeading: st.years + ': ' + T.stageName(pu.band),
+      progressLine: prog.done + ' of ' + prog.need + ' challenges signed off',
+      attention, hasAttention: attention.length > 0,
+      listHeading: isParent ? 'Signed-off challenges' : 'Everything so far',
+      entries: list.map(map)
+    };
+  }
+}
+</script>
+</body>
+</html>

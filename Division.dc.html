@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Division 6B</title>
+<link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
+<script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
+<script src="trail.js"></script>
+<style>body{margin:0;font-size:16px;background:var(--color-bg)} a{color:var(--color-accent-700)} a:hover{color:var(--color-accent-800)}</style>
+</helmet>
+<dc-import name="Header" page="division" hint-size="100%,96px"></dc-import>
+<main style="max-width: 1280px; margin: 0 auto; padding: var(--space-8) var(--space-6);">
+  <sc-if value="{{ blocked }}" hint-placeholder-val="{{ false }}">
+    <p>This is the staff view. Choose Mrs Ashby in the header to see it.</p>
+  </sc-if>
+  <sc-if value="{{ ok }}" hint-placeholder-val="{{ true }}">
+    <section style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: var(--space-6);">
+      <div>
+        <p style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin-bottom: var(--space-2);">Mrs C. Ashby · Division Master</p>
+        <h1 style="font-size: 48px; font-weight: 500; margin: 0;">Division 6B</h1>
+      </div>
+      <div style="display: flex; gap: var(--space-8);">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+          <div>
+            <div style="font-family: var(--font-heading); font-size: 40px; font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums;">{{ s.n }}</div>
+            <div style="font-size: 13px; color: var(--color-neutral-700);">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+      <p style="margin: var(--space-4) 0 0; padding: var(--space-2) var(--space-3); border: 1px solid var(--color-accent); border-radius: var(--radius-md); font-size: 15px;">{{ toast }}</p>
+    </sc-if>
+
+    <section style="margin-top: var(--space-8);">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-divider);">
+        <h2 style="font-size: 30px; margin: 0;">Waiting for your sign-off</h2>
+        <div style="display: flex; align-items: center; gap: var(--space-3);">
+          <label style="display: flex; gap: var(--space-2); align-items: center; font-size: 14px; cursor: pointer;">
+            <input type="checkbox" checked="{{ allOn }}" onChange="{{ toggleAll }}" style="width: 18px; height: 18px; accent-color: var(--color-accent);">Select all
+          </label>
+          <button type="button" class="btn btn-primary" onClick="{{ bulk }}" disabled="{{ bulkDisabled }}">{{ bulkLabel }}</button>
+        </div>
+      </div>
+      <p style="font-size: 13px; color: var(--color-neutral-700); margin: var(--space-2) 0 0;">Your comments may be printed in the boy's keepsake. You can't edit his words.</p>
+      <sc-if value="{{ queueEmpty }}" hint-placeholder-val="{{ false }}"><p style="padding: var(--space-4) 0;">Nothing waiting. Well done.</p></sc-if>
+      <div style="display: flex; flex-direction: column;">
+        <sc-for list="{{ queue }}" as="q" hint-placeholder-count="3">
+          <article style="display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: var(--space-4); padding: var(--space-4) 0; border-bottom: 1px solid var(--color-divider); align-items: start;">
+            <input type="checkbox" checked="{{ q.on }}" onChange="{{ q.toggle }}" aria-label="Select" style="width: 20px; height: 20px; margin-top: 6px; accent-color: var(--color-accent);">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2);">
+                <span style="font-family: var(--font-heading); font-size: 22px; font-weight: 600;">{{ q.title }}</span>
+                <span style="font-size: 14px; color: var(--color-neutral-700);">{{ q.meta }}</span>
+              </div>
+              <div style="display: grid; grid-template-columns: {{ q.cols }}; gap: var(--space-4);">
+                <dl style="margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; font-size: 15px;">
+                  <sc-for list="{{ q.answers }}" as="a" hint-placeholder-count="3">
+                    <div><dt style="font-size: 12px; color: var(--color-neutral-700);">{{ a.q }}</dt><dd style="margin: 0; font-style: italic;">{{ a.a }}</dd></div>
+                  </sc-for>
+                </dl>
+                <sc-if value="{{ q.hasPhoto }}" hint-placeholder-val="{{ false }}"><img class="plate" src="{{ q.photo }}" alt="Evidence" style="width: 160px; aspect-ratio: 4 / 3; object-fit: cover;"></sc-if>
+              </div>
+              <sc-if value="{{ q.hasEffort }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-wrap: wrap; gap: 6px;"><sc-for list="{{ q.effort }}" as="ef" hint-placeholder-count="1"><span class="tag tag-accent">{{ ef }}</span></sc-for></div>
+              </sc-if>
+              <sc-if value="{{ q.asking }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-2);">
+                  <textarea class="input" style="min-height: 70px; font-size: 15px;" value="{{ moreText }}" onChange="{{ setMore }}" placeholder="What would you like him to add?"></textarea>
+                  <div style="display: flex; gap: var(--space-2);">
+                    <button type="button" class="btn btn-primary" onClick="{{ q.sendMore }}">Send back to {{ q.first }}</button>
+                    <button type="button" class="btn btn-ghost" onClick="{{ cancelMore }}">Cancel</button>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+              <button type="button" class="btn btn-primary" onClick="{{ q.approve }}">Sign off</button>
+              <button type="button" class="btn btn-secondary" onClick="{{ q.more }}">Ask for a bit more</button>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-top: var(--space-8); display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: var(--space-8); align-items: start;">
+      <div>
+        <h2 style="font-size: 28px;">Own challenges to agree</h2>
+        <sc-if value="{{ propEmpty }}" hint-placeholder-val="{{ false }}"><p style="color: var(--color-neutral-700);">None waiting.</p></sc-if>
+        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+          <sc-for list="{{ proposals }}" as="p" hint-placeholder-count="1">
+            <div class="card" style="padding: var(--space-4);">
+              <span class="card-kicker" style="color: var(--color-accent-700);">{{ p.who }} · {{ p.catName }}</span>
+              <div class="card-title" style="font-size: 22px;">{{ p.title }}</div>
+              <dl style="margin: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px;">
+                <div><dt style="font-size: 12px; color: var(--color-neutral-700);">Why</dt><dd style="margin: 0;">{{ p.why }}</dd></div>
+                <div><dt style="font-size: 12px; color: var(--color-neutral-700);">Plan</dt><dd style="margin: 0;">{{ p.plan }}</dd></div>
+                <div><dt style="font-size: 12px; color: var(--color-neutral-700);">He'll know he's done it when</dt><dd style="margin: 0;">{{ p.success }}</dd></div>
+              </dl>
+              <div style="display: flex; gap: var(--space-2); margin-top: var(--space-2);">
+                <button type="button" class="btn btn-primary" onClick="{{ p.agree }}">Agree it</button>
+                <button type="button" class="btn btn-secondary" onClick="{{ p.changes }}">Suggest changes</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div>
+        <h2 style="font-size: 28px;">Record a school event for the group</h2>
+        <p style="font-size: 14px; color: var(--color-neutral-700);">Events from the school calendar. Boys who took part get it on their trail, already signed off.</p>
+        <div class="field" style="margin-bottom: var(--space-3);">
+          <label for="ev">Event</label>
+          <select id="ev" class="input" style="min-height: 40px; font-size: 15px;" value="{{ eventIdx }}" onChange="{{ setEvent }}">
+            <sc-for list="{{ events }}" as="e" hint-placeholder-count="4"><option value="{{ e.i }}">{{ e.label }}</option></sc-for>
+          </select>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-bottom: var(--space-3);">
+          <sc-for list="{{ eventBoys }}" as="b" hint-placeholder-count="8">
+            <label style="display: flex; gap: var(--space-2); align-items: center; font-size: 15px; cursor: pointer; min-height: 32px;">
+              <input type="checkbox" checked="{{ b.on }}" onChange="{{ b.toggle }}" style="width: 18px; height: 18px; accent-color: var(--color-accent);">{{ b.name }}
+            </label>
+          </sc-for>
+        </div>
+        <button type="button" class="btn btn-primary" onClick="{{ recordEvent }}">{{ eventLabel }}</button>
+      </div>
+    </section>
+
+    <section style="margin-top: var(--space-8);">
+      <h2 style="font-size: 30px;">The division at a glance</h2>
+      <p style="font-size: 14px; color: var(--color-neutral-700);">Signed-off challenges against the {{ stageName }} stage ({{ perCat }} per part of the trail). For staff only. Boys never see each other's progress.</p>
+      <div style="overflow-x: auto;">
+        <table class="table" style="font-size: 15px;">
+          <thead>
+            <tr>
+              <th>Boy</th>
+              <sc-for list="{{ catHeads }}" as="h" hint-placeholder-count="6"><th style="text-align: center;">{{ h }}</th></sc-for>
+              <th style="text-align: right;">Stage</th>
+              <th style="text-align: right;">Waiting</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ boys }}" as="b" hint-placeholder-count="8">
+              <tr>
+                <td style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">{{ b.name }}</td>
+                <sc-for list="{{ b.cells }}" as="c" hint-placeholder-count="6">
+                  <td style="text-align: center; font-variant-numeric: tabular-nums; color: {{ c.color }};">{{ c.text }}</td>
+                </sc-for>
+                <td style="text-align: right; font-variant-numeric: tabular-nums;">{{ b.pct }}</td>
+                <td style="text-align: right; font-variant-numeric: tabular-nums;">{{ b.waiting }}</td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </sc-if>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { sel: [], moreFor: null, moreText: '', eventIdx: '0', eventSel: null, toast: '' };
+  EVENTS = [
+    { title: 'Year 6 Geography field trip to Devon', cat: 'discovery' },
+    { title: 'Harvest collection for the food bank', cat: 'service' },
+    { title: 'Thursday clubs: climbing taster', cat: 'sport' },
+    { title: 'Division grounds clean-up', cat: 'life' }
+  ];
+  componentDidMount() {
+    this._u = () => this.forceUpdate();
+    window.addEventListener('trail-change', this._u);
+    if (!window.Trail) this._t = setInterval(() => { if (window.Trail) { clearInterval(this._t); this.forceUpdate(); } }, 40);
+  }
+  componentWillUnmount() { window.removeEventListener('trail-change', this._u); clearInterval(this._t); clearTimeout(this._tt); }
+  toast(msg) { this.setState({ toast: msg }); clearTimeout(this._tt); this._tt = setTimeout(() => this.setState({ toast: '' }), 3500); }
+  renderVals() {
+    const T = window.Trail;
+    if (!T) return { stats: [], queue: [], proposals: [], events: [], eventBoys: [], boys: [], catHeads: [] };
+    const p = T.persona();
+    if (p.role !== 'staff') return { blocked: true, ok: false, stats: [], queue: [], proposals: [], events: [], eventBoys: [], boys: [], catHeads: [] };
+    const S = T.state, me = p.staff;
+    const boys = Object.values(T.PUPILS).filter(b => b.division === '6B');
+    const queueE = S.entries.filter(e => e.status === 'submitted' && e.supervisor === me).sort((a, b) => a.date.localeCompare(b.date));
+    const sel = this.state.sel.filter(id => queueE.some(e => e.id === id));
+    const prompts = T.promptsFor('y6');
+    const days = queueE.length ? Math.max(0, Math.round((Date.now() - new Date(queueE[0].date + 'T12:00:00')) / 864e5)) : 0;
+    const props = S.proposals.filter(x => x.supervisor === me && x.status === 'pending');
+    const evSel = this.state.eventSel || boys.map(b => b.id);
+    const ev = this.EVENTS[+this.state.eventIdx];
+    return {
+      blocked: false, ok: true, toast: this.state.toast,
+      stats: [{ n: queueE.length, label: 'waiting for sign-off' }, { n: props.length, label: 'own challenges to agree' }, { n: days, label: queueE.length ? 'days, oldest waiting' : 'days waiting' }],
+      queue: queueE.map(e => {
+        const pu = T.PUPILS[e.pupil], c = T.cat(e.cat);
+        const ps = T.promptsFor(pu.band);
+        const answers = ps.map(q => ({ q: q.q, a: e.reflection[q.k] || '—' }));
+        if (e.reflection.grit) answers.push({ q: 'GRIT word', a: e.reflection.grit });
+        if (e.reflection.feeling) answers.push({ q: 'How he felt', a: e.reflection.feeling });
+        return {
+          title: e.title, first: pu.first, on: sel.includes(e.id),
+          meta: pu.first + ' ' + pu.surname + ' · ' + c.name + ' · ' + T.fmt(e.date) + (e.measure ? ' · ' + e.measure : ''),
+          answers, effort: e.effort || [], hasEffort: (e.effort || []).length > 0,
+          photo: e.photo, hasPhoto: !!e.photo, cols: e.photo ? 'minmax(0,1fr) 160px' : 'minmax(0,1fr)',
+          asking: this.state.moreFor === e.id,
+          toggle: () => this.setState(s => ({ sel: s.sel.includes(e.id) ? s.sel.filter(x => x !== e.id) : [...s.sel, e.id] })),
+          approve: () => { T.approve([e.id]); this.toast('Signed off: ' + pu.first + ', ' + e.title + '.'); },
+          more: () => this.setState({ moreFor: e.id, moreText: '' }),
+          sendMore: () => { if (!this.state.moreText.trim()) return; T.askMore(e.id, this.state.moreText.trim()); this.setState({ moreFor: null }); this.toast('Sent back to ' + pu.first + ' with your note.'); }
+        };
+      }),
+      queueEmpty: queueE.length === 0,
+      allOn: queueE.length > 0 && sel.length === queueE.length,
+      toggleAll: () => this.setState({ sel: sel.length === queueE.length ? [] : queueE.map(e => e.id) }),
+      bulkDisabled: sel.length === 0,
+      bulkLabel: sel.length ? 'Sign off ' + sel.length + ' selected' : 'Sign off selected',
+      bulk: () => { const n = sel.length; T.approve(sel); this.setState({ sel: [] }); this.toast(n + ' challenges signed off.'); },
+      moreText: this.state.moreText, setMore: (e) => this.setState({ moreText: e.target.value }), cancelMore: () => this.setState({ moreFor: null }),
+      proposals: props.map(x => ({ who: T.PUPILS[x.pupil].first + ' ' + T.PUPILS[x.pupil].surname, catName: T.cat(x.cat).name, title: x.title, why: x.why || '—', plan: x.plan, success: x.success || '—',
+        agree: () => { T.decideProposal(x.id, 'agreed', 'Agreed. Good luck.'); this.toast('Agreed. It now appears in ' + T.PUPILS[x.pupil].first + "'s challenge list."); },
+        changes: () => { const c = prompt('What would you change?'); if (c) { T.decideProposal(x.id, 'changes', c); this.toast('Suggestion sent.'); } } })),
+      propEmpty: props.length === 0,
+      events: this.EVENTS.map((e, i) => ({ i: String(i), label: e.title + ' (' + T.cat(e.cat).name + ')' })),
+      eventIdx: this.state.eventIdx, setEvent: (e) => this.setState({ eventIdx: e.target.value }),
+      eventBoys: boys.map(b => ({ name: b.first + ' ' + b.surname, on: evSel.includes(b.id), toggle: () => this.setState({ eventSel: evSel.includes(b.id) ? evSel.filter(x => x !== b.id) : [...evSel, b.id] }) })),
+      eventLabel: 'Record for ' + evSel.length + ' boys',
+      recordEvent: () => { if (!evSel.length) return; T.groupEvent(ev.cat, ev.title, evSel); this.toast(ev.title + ' recorded for ' + evSel.length + ' boys.'); },
+      stageName: T.stageName('y6'), perCat: T.STAGES.y6.perCat,
+      catHeads: T.CATS.map(c => c.name.replace(' & Fitness', '')),
+      boys: boys.map(b => {
+        const pr = T.progress(b.id);
+        return { name: b.first + ' ' + b.surname, pct: pr.pct + '%', waiting: S.entries.filter(e => e.pupil === b.id && e.status === 'submitted').length,
+          cells: pr.cats.map(c => ({ text: Math.min(c.done, c.need) + '/' + c.need, color: c.complete ? 'var(--color-accent-700)' : c.done === 0 ? 'var(--color-neutral-500)' : 'var(--color-text)' })) };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

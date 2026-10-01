@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Safeguarding and data</title>
+<link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
+<script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
+<script src="trail.js"></script>
+<style>body{margin:0;font-size:16px;background:var(--color-bg)} a{color:var(--color-accent-700)} a:hover{color:var(--color-accent-800)}</style>
+</helmet>
+<dc-import name="Header" page="safeguarding" hint-size="100%,96px"></dc-import>
+<main style="max-width: 1180px; margin: 0 auto; padding: var(--space-8) var(--space-6);">
+  <p style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin-bottom: var(--space-2);">For staff and parents</p>
+  <h1 style="font-size: 48px; font-weight: 500;">Safeguarding and data</h1>
+  <p style="font-size: 17px; max-width: 42em; text-wrap: pretty;">How the full version protects boys. Items marked “in this demo” already work in this prototype.</p>
+
+  <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-6) var(--space-8); margin-top: var(--space-8);">
+    <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-3);">
+      <h3 style="font-size: 23px;">Sign-in</h3>
+      <p style="font-size: 15px; text-align: justify; hyphens: auto;">Boys and staff use their existing Microsoft 365 school accounts. Years 4 and 5 can use a printed QR code card with a PIN of at least eight digits, so there is no password to remember. Codes and PINs are never emailed to boys.</p>
+    </div>
+    <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-3);">
+      <h3 style="font-size: 23px;">Photos</h3>
+      <p style="font-size: 15px; text-align: justify; hyphens: auto;">Boys photograph the thing, not themselves. Location, camera and time data are stripped when a photo is saved, and it is re-saved at a smaller size. Faces never appear on a share page. <span class="tag tag-accent">In this demo</span></p>
+    </div>
+    <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-3);">
+      <h3 style="font-size: 23px;">Share links</h3>
+      <p style="font-size: 15px; text-align: justify; hyphens: auto;">Off until a boy makes one. First name only, a random 128-bit code, an expiry date, one-click switch-off and a record of each visit. Search engines are told not to list the page. <span class="tag tag-accent">In this demo</span></p>
+    </div>
+    <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-3);">
+      <h3 style="font-size: 23px;">Who sees what</h3>
+      <p style="font-size: 15px; text-align: justify; hyphens: auto;">Staff see only the boys in their scope: a Division Master sees their division, activity staff see only the challenges assigned to them. Parents see signed-off entries, and boys are told this. There are no leaderboards and boys never see each other's progress. <span class="tag tag-accent">In this demo</span></p>
+    </div>
+    <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-3);">
+      <h3 style="font-size: 23px;">Concerns</h3>
+      <p style="font-size: 15px; text-align: justify; hyphens: auto;">Every logging screen has a “Worried about something?” route. The DSL can see all records, including anything flagged, and can switch off any link. Staff cannot edit a boy's reflections. <span class="tag tag-accent">In this demo</span></p>
+    </div>
+    <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-3);">
+      <h3 style="font-size: 23px;">Retention</h3>
+      <p style="font-size: 15px; text-align: justify; hyphens: auto;">Proposed: evidence kept while a boy is at school; keepsake produced in his final term; evidence and photos deleted 12 months after he leaves; share links stop when he leaves. To be aligned with the school's Retention Policy.</p>
+    </div>
+  </section>
+
+  <section style="margin-top: var(--space-8);">
+    <h2 style="font-size: 30px;">Compliance before a pilot</h2>
+    <table class="table" style="font-size: 15px;">
+      <tbody>
+        <tr><td style="width: 32%; font-family: var(--font-heading); font-size: 18px; font-weight: 600;">DPIA</td><td>Completed and signed off before any real data is used. This prototype uses fictitious data only.</td></tr>
+        <tr><td style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">UK GDPR and the Data (Use and Access) Act 2025</td><td>Main provisions in force from 5 February 2026; complaints procedure from 19 June 2026. The app is covered by the school's complaints procedure.</td></tr>
+        <tr><td style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">KCSIE 2026</td><td>In force from 1 September 2026. The app joins the annual filtering, monitoring and cyber security review.</td></tr>
+        <tr><td style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">ICO Children's Code</td><td>Not binding on schools, but used as the standard: high-privacy defaults, no nudges, no profiling, geolocation off.</td></tr>
+        <tr><td style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">Hosting</td><td>Azure UK South, with evidence in the app's own storage so metadata stripping, expiring links and scheduled deletion are under the school's control.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section style="margin-top: var(--space-8); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: var(--space-8); align-items: start;">
+    <div>
+      <h2 style="font-size: 30px;">Cost</h2>
+      <p style="font-size: 14px; color: var(--color-neutral-700);">Estimates to confirm with IT and an agency.</p>
+      <dl style="margin: 0; display: flex; flex-direction: column; gap: var(--space-3); font-size: 15px;">
+        <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-2);"><dt style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">Prototype</dt><dd style="margin: 0;">Low cost. Fictitious data, no DPIA needed.</dd></div>
+        <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-2);"><dt style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">Development</dt><dd style="margin: 0;">The main cost. Build by an agency or technical staff member, with documentation.</dd></div>
+        <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-2);"><dt style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">Hosting</dt><dd style="margin: 0;">Likely tens of pounds a month at Ludgrove's size.</dd></div>
+        <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-2);"><dt style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">Microsoft</dt><dd style="margin: 0;">School Data Sync is free. QR sign-in is included in Microsoft 365 A3/A5; the school's licence needs checking.</dd></div>
+        <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-2);"><dt style="font-family: var(--font-heading); font-size: 18px; font-weight: 600;">Support</dt><dd style="margin: 0;">An annual support contract, so the platform does not depend on one person.</dd></div>
+      </dl>
+    </div>
+    <div>
+      <h2 style="font-size: 30px;">Audit log</h2>
+      <p style="font-size: 14px; color: var(--color-neutral-700);">Live from this demo. In production it cannot be edited by ordinary admins and is reviewed by the DSL, Headmaster and Data Protection Lead.</p>
+      <div style="max-height: 460px; overflow-y: auto;">
+        <table class="table" style="font-size: 14px;">
+          <thead><tr><th>When</th><th>Who</th><th>Action</th><th>Record</th></tr></thead>
+          <tbody>
+            <sc-for list="{{ audit }}" as="a" hint-placeholder-count="6">
+              <tr><td style="white-space: nowrap; font-variant-numeric: tabular-nums;">{{ a.when }}</td><td>{{ a.who }}</td><td>{{ a.action }}</td><td>{{ a.record }}</td></tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    this._u = () => this.forceUpdate();
+    window.addEventListener('trail-change', this._u);
+    if (!window.Trail) this._t = setInterval(() => { if (window.Trail) { clearInterval(this._t); this.forceUpdate(); } }, 40);
+  }
+  componentWillUnmount() { window.removeEventListener('trail-change', this._u); clearInterval(this._t); }
+  renderVals() {
+    const T = window.Trail;
+    if (!T) return { audit: [] };
+    return { audit: T.state.audit.slice(0, 60).map(a => ({ when: T.fmtTime(a.at), who: a.who, action: a.action, record: a.record })) };
+  }
+}
+</script>
+</body>
+</html>

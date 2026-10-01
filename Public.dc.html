@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>A Ludgrove trail</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
+<script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
+<script src="trail.js"></script>
+<style>body{margin:0;font-size:16px;background:var(--color-bg)} a{color:var(--color-accent-700)} a:hover{color:var(--color-accent-800)}</style>
+</helmet>
+<header style="border-bottom: 1px solid var(--color-divider);">
+  <div style="max-width: 980px; margin: 0 auto; padding: var(--space-4) var(--space-6); display: flex; align-items: center; gap: var(--space-3);">
+    <img src="assets/l-mark.png" alt="Ludgrove" style="width: 40px; height: 40px; object-fit: cover; border-radius: var(--radius-md);">
+    <div style="font-family: var(--font-heading); font-size: 22px; font-weight: 600;">{{ awardName }}</div>
+  </div>
+</header>
+<main style="max-width: 980px; margin: 0 auto; padding: var(--space-8) var(--space-6);">
+  <sc-if value="{{ closed }}" hint-placeholder-val="{{ false }}">
+    <section style="padding: var(--space-8) 0; text-align: center;">
+      <h1 style="font-size: 40px; font-weight: 500;">{{ closedTitle }}</h1>
+      <p style="max-width: 32em; margin: 0 auto;">{{ closedBody }}</p>
+    </section>
+  </sc-if>
+  <sc-if value="{{ open }}" hint-placeholder-val="{{ true }}">
+    <p style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin-bottom: var(--space-2);">{{ kicker }}</p>
+    <h1 style="font-size: 56px; font-weight: 500; margin-bottom: var(--space-2);">{{ first }}'s trail</h1>
+    <p style="font-size: 17px; margin: 0;">{{ stageLine }}</p>
+
+    <section style="margin-top: var(--space-8); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--color-divider);">
+      <sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+        <div style="padding: var(--space-4) var(--space-3) var(--space-4) 0; border-bottom: 1px solid var(--color-divider); display: flex; gap: var(--space-3); align-items: center;">
+          <img src="{{ c.icon }}" alt="" style="width: 26px; height: 26px;">
+          <div>
+            <div style="font-family: var(--font-heading); font-size: 20px; font-weight: 600;">{{ c.name }}</div>
+            <div style="font-size: 13px; color: var(--color-neutral-700); font-variant-numeric: tabular-nums;">{{ c.count }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+
+    <section style="margin-top: var(--space-8);">
+      <h2 style="font-size: 30px;">In his own words</h2>
+      <div style="display: flex; flex-direction: column; gap: var(--space-6);">
+        <sc-for list="{{ highlights }}" as="h" hint-placeholder-count="2">
+          <article style="display: grid; grid-template-columns: {{ h.cols }}; gap: var(--space-4);">
+            <div>
+              <div style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent-700);">{{ h.catName }}</div>
+              <h3 style="font-size: 24px; margin: 2px 0 var(--space-2);">{{ h.title }}</h3>
+              <sc-for list="{{ h.answers }}" as="a" hint-placeholder-count="2">
+                <p style="margin: 0 0 6px; font-size: 16px;"><span style="color: var(--color-neutral-700); font-size: 13px;">{{ a.q }}</span><br><em>{{ a.a }}</em></p>
+              </sc-for>
+              <sc-if value="{{ h.hasStaff }}" hint-placeholder-val="{{ false }}"><div style="font-size: 13px; color: var(--color-neutral-700);">Signed off by {{ h.staff }}</div></sc-if>
+            </div>
+            <sc-if value="{{ h.hasPhoto }}" hint-placeholder-val="{{ false }}"><img class="plate" src="{{ h.photo }}" alt="" style="width: 220px; aspect-ratio: 4 / 3; object-fit: cover;"></sc-if>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-top: var(--space-8);">
+      <h2 style="font-size: 30px;">Challenges completed</h2>
+      <ul style="margin: 0; padding: 0; list-style: none; columns: 2; column-gap: var(--space-8); font-size: 15px;">
+        <sc-for list="{{ titles }}" as="t" hint-placeholder-count="8">
+          <li style="padding: 6px 0; border-bottom: 1px solid var(--color-divider); break-inside: avoid;">{{ t.title }} <span style="color: var(--color-neutral-700); font-size: 13px;">· {{ t.cat }}</span></li>
+        </sc-for>
+      </ul>
+    </section>
+
+    <footer style="margin-top: var(--space-8); padding-top: var(--space-4); border-top: 1px solid var(--color-divider); font-size: 13px; color: var(--color-neutral-700);">
+      {{ first }} chose to share this page. It stops working on {{ expires }}, or sooner if he switches it off.
+    </footer>
+  </sc-if>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { res: null };
+  componentDidMount() {
+    const init = () => { const t = new URLSearchParams(location.search).get('t'); this.setState({ res: t ? window.Trail.openLink(t) : { state: 'missing' } }); };
+    if (window.Trail) init(); else this._t = setInterval(() => { if (window.Trail) { clearInterval(this._t); init(); } }, 40);
+  }
+  componentWillUnmount() { clearInterval(this._t); }
+  renderVals() {
+    const T = window.Trail, r = this.state.res;
+    const empty = { cats: [], highlights: [], titles: [], open: false, closed: false };
+    if (!T || !r) return empty;
+    if (r.state !== 'active') {
+      const msg = { missing: ['This link does not work', 'Check you have copied the whole link.'], expired: ['This link has expired', 'Ask the person who shared it for a new one.'], revoked: ['This link has been switched off', 'Ask the person who shared it for a new one.'] }[r.state];
+      return { ...empty, awardName: T.state.awardName, closed: true, closedTitle: msg[0], closedBody: msg[1] };
+    }
+    const l = r.link, pu = T.PUPILS[l.pupil], prog = T.progress(pu.id);
+    const appr = T.entriesFor(pu.id).filter(e => e.status === 'approved');
+    const prompts = T.promptsFor(pu.band);
+    const starred = appr.filter(e => e.starred).slice(0, 5);
+    return {
+      open: true, closed: false, awardName: T.state.awardName,
+      kicker: ['Ludgrove School', l.show.year ? 'Year ' + pu.year : '', l.show.set ? pu.set + ' set' : ''].filter(Boolean).join(' · '),
+      first: pu.first,
+      stageLine: 'Working towards ' + T.stageName(pu.band) + '. ' + (pu.completed.length ? 'Completed: ' + pu.completed.map(c => T.stageName(c.band)).join(', ') + '.' : ''),
+      cats: prog.cats.map(c => ({ name: c.cat.name, icon: c.cat.icon, count: Math.min(c.done, c.need) + ' of ' + c.need + ' this stage' })),
+      highlights: starred.map(e => {
+        const answers = prompts.map(q => ({ q: q.q, a: e.reflection[q.k] })).filter(a => a.a).slice(0, 3);
+        const ph = l.show.photos && e.photo;
+        return { title: e.title, catName: T.cat(e.cat).name, answers, hasStaff: l.show.staff, staff: T.staffName(e.supervisor), photo: e.photo, hasPhoto: !!ph, cols: ph ? 'minmax(0,1fr) 220px' : 'minmax(0,1fr)' };
+      }),
+      titles: appr.filter(e => !e.group).map(e => ({ title: e.title, cat: T.cat(e.cat).name })),
+      expires: T.fmt(l.expires)
+    };
+  }
+}
+</script>
+</body>
+</html>

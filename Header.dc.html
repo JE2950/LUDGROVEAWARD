@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
+<script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
+<script src="trail.js"></script>
+</helmet>
+<div class="no-print" style="border-bottom: 1px solid var(--color-divider); background: var(--color-bg);">
+  <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-2); padding: 5px var(--space-4); font-size: 12px; background: var(--color-surface); color: var(--color-neutral-800);">
+    <span>Prototype for SLT. Every name, entry and photo is fictitious. Sign-in is simulated.</span>
+  </div>
+  <nav style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-6); max-width: 1280px; margin: 0 auto;">
+    <a href="Start.dc.html" style="display: flex; align-items: center; gap: var(--space-3); text-decoration: none; color: var(--color-text); margin-right: auto;">
+      <img src="assets/l-mark.png" alt="Ludgrove" style="width: 40px; height: 40px; object-fit: cover; border-radius: var(--radius-md);">
+      <span style="display: flex; flex-direction: column; line-height: 1.1;">
+        <span style="font-family: var(--font-heading); font-size: 22px; font-weight: 600;">{{ awardName }}</span>
+        <span style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent-700);">Ludgrove School</span>
+      </span>
+    </a>
+    <div style="display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center;">
+      <sc-for list="{{ links }}" as="l" hint-placeholder-count="5">
+        <a href="{{ l.href }}" aria-current="{{ l.cur }}" style="font-size: 15px; text-decoration: none; padding: 4px 0; border-bottom: 1px solid {{ l.line }}; color: {{ l.color }};">{{ l.label }}</a>
+      </sc-for>
+    </div>
+    <div style="display: flex; align-items: center; gap: var(--space-2);">
+      <label for="persona-select" style="font-size: 12px; color: var(--color-neutral-700);">Viewing as</label>
+      <select id="persona-select" class="input" style="width: auto; min-height: 36px; font-size: 14px;" value="{{ persona }}" onChange="{{ onPersona }}">
+        <sc-for list="{{ personas }}" as="p" hint-placeholder-count="5">
+          <option value="{{ p.id }}">{{ p.label }}</option>
+        </sc-for>
+      </select>
+      <div style="display: inline-flex; border: 1px solid var(--color-divider); border-radius: var(--radius-md); overflow: hidden;" title="Compare stage vocabularies">
+        <button type="button" onClick="{{ setTrail }}" style="font: inherit; font-size: 13px; padding: 7px 10px; background: transparent; border: 0; cursor: pointer; color: {{ tierTrailColor }}; box-shadow: {{ tierTrailRing }};">Trail names</button>
+        <button type="button" onClick="{{ setMetal }}" style="font: inherit; font-size: 13px; padding: 7px 10px; background: transparent; border: 0; border-left: 1px solid var(--color-divider); cursor: pointer; color: {{ tierMetalColor }}; box-shadow: {{ tierMetalRing }};">Bronze/Silver/Gold</button>
+      </div>
+    </div>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;page&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;trail&quot;, &quot;tsType&quot;: &quot;string&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this._u = () => this.forceUpdate();
+    window.addEventListener('trail-change', this._u);
+    window.addEventListener('trail-ready', this._u);
+    if (!window.Trail) this._t = setInterval(() => { if (window.Trail) { clearInterval(this._t); this.forceUpdate(); } }, 40);
+  }
+  componentWillUnmount() { window.removeEventListener('trail-change', this._u); window.removeEventListener('trail-ready', this._u); clearInterval(this._t); }
+  renderVals() {
+    const T = window.Trail;
+    if (!T) return { awardName: '', links: [], personas: [] };
+    const p = T.persona(), S = T.state, page = this.props.page;
+    let L;
+    if (p.role === 'staff') L = [['division', 'My division', 'Division.dc.html'], ['safeguarding', 'Safeguarding & data', 'Safeguarding.dc.html']];
+    else if (p.role === 'parent') L = [['trail', "Kit's trail", 'Trail.dc.html'], ['records', 'Certificates', 'Records.dc.html'], ['safeguarding', 'Safeguarding & data', 'Safeguarding.dc.html']];
+    else {
+      const pu = T.pupilFor();
+      L = [['trail', 'My trail', 'Trail.dc.html'], ['log', 'Log a challenge', 'Log.dc.html'], ['propose', 'My own challenge', 'Propose.dc.html'], ['share', 'Share', 'Share.dc.html'], ['records', pu.year >= 8 ? 'Certificates & keepsake' : 'Certificates', 'Records.dc.html']];
+      if (pu.year >= 8) L.push(['top', T.topName(), 'TopAward.dc.html']);
+    }
+    const on = (t) => t === S.tierSet;
+    return {
+      awardName: S.awardName,
+      links: L.map(([id, label, href]) => ({ label, href, cur: id === page ? 'page' : undefined, color: id === page ? 'var(--color-accent-700)' : 'var(--color-text)', line: id === page ? 'var(--color-accent)' : 'transparent' })),
+      personas: T.PERSONAS,
+      persona: S.persona,
+      onPersona: (e) => { const id = e.target.value; T.setPersona(id); const np = T.PERSONAS.find(x => x.id === id); location.href = np.home; },
+      setTrail: () => T.setTierSet('trail'),
+      setMetal: () => T.setTierSet('metal'),
+      tierTrailColor: on('trail') ? 'var(--color-accent-700)' : 'var(--color-text)',
+      tierTrailRing: on('trail') ? 'inset 0 0 0 1px var(--color-accent)' : 'none',
+      tierMetalColor: on('metal') ? 'var(--color-accent-700)' : 'var(--color-text)',
+      tierMetalRing: on('metal') ? 'inset 0 0 0 1px var(--color-accent)' : 'none'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Share my trail</title>
+<link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
+<script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
+<script src="trail.js"></script>
+<style>body{margin:0;font-size:16px;background:var(--color-bg)} a{color:var(--color-accent-700)} a:hover{color:var(--color-accent-800)}</style>
+</helmet>
+<dc-import name="Header" page="share" hint-size="100%,96px"></dc-import>
+<main style="max-width: 1180px; margin: 0 auto; padding: var(--space-8) var(--space-6);">
+  <sc-if value="{{ blocked }}" hint-placeholder-val="{{ false }}"><p>Switch to a pupil in the header to manage share links.</p></sc-if>
+  <sc-if value="{{ ok }}" hint-placeholder-val="{{ true }}">
+    <p style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin-bottom: var(--space-2);">{{ kicker }}</p>
+    <h1 style="font-size: 44px; font-weight: 500;">Share your trail</h1>
+    <p style="font-size: 17px; max-width: 40em; text-wrap: pretty;">Make a private link to a page about your trail, for a senior school or for family. Only people with the link can open it. You choose how long it lasts and you can switch it off at any time. {{ dmName }} is told when you make one.</p>
+
+    <section style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-8); margin-top: var(--space-6); align-items: start;">
+      <div class="card" style="padding: var(--space-6); gap: var(--space-4);">
+        <h2 style="font-size: 26px; margin: 0;">Make a new link</h2>
+        <div class="field">
+          <label for="purpose">Who is it for?</label>
+          <input id="purpose" class="input" style="min-height: 44px; font-size: 16px;" value="{{ purpose }}" onChange="{{ setPurpose }}" placeholder="Senior school interview">
+        </div>
+        <div>
+          <div style="font-size: 12px; color: var(--color-neutral-700); margin-bottom: 6px;">Stops working after</div>
+          <div class="seg">
+            <sc-for list="{{ expiries }}" as="x" hint-placeholder-count="3">
+              <label class="seg-opt" style="font-size: 15px; padding: 10px 16px;"><input type="radio" name="exp" checked="{{ x.on }}" onChange="{{ x.pick }}">{{ x.label }}</label>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 12px; color: var(--color-neutral-700); margin-bottom: 6px;">Always shown: your first name, your progress, your challenge titles and the reflections you star. Add anything else?</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+            <sc-for list="{{ showOpts }}" as="o" hint-placeholder-count="4">
+              <label style="display: flex; gap: var(--space-2); align-items: flex-start; cursor: pointer; font-size: 15px;">
+                <input type="checkbox" checked="{{ o.on }}" onChange="{{ o.toggle }}" style="width: 20px; height: 20px; accent-color: var(--color-accent); margin-top: 2px;">
+                <span>{{ o.label }}<span style="display: block; font-size: 13px; color: var(--color-neutral-700);">{{ o.hint }}</span></span>
+              </label>
+            </sc-for>
+          </div>
+        </div>
+        <div><button type="button" class="btn btn-primary" style="min-height: 46px; font-size: 16px;" onClick="{{ create }}">Make link</button></div>
+        <sc-if value="{{ hasNew }}" hint-placeholder-val="{{ false }}">
+          <div style="border-top: 1px solid var(--color-divider); padding-top: var(--space-3); display: flex; flex-direction: column; gap: var(--space-2);">
+            <div style="font-size: 13px; color: var(--color-neutral-700);">Your new link</div>
+            <code style="font-size: 13px; word-break: break-all; padding: var(--space-2); border: 1px solid var(--color-divider); border-radius: var(--radius-md);">{{ newUrl }}</code>
+            <div style="display: flex; gap: var(--space-2);">
+              <button type="button" class="btn btn-secondary" onClick="{{ copyNew }}">{{ copyLabel }}</button>
+              <a class="btn btn-ghost" href="{{ newHref }}" target="_blank">Open it as a visitor would</a>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <div>
+        <h2 style="font-size: 26px;">Your links</h2>
+        <sc-if value="{{ none }}" hint-placeholder-val="{{ false }}"><p style="color: var(--color-neutral-700);">You have not shared your trail yet.</p></sc-if>
+        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+          <sc-for list="{{ links }}" as="l" hint-placeholder-count="1">
+            <div class="card" style="padding: var(--space-4); opacity: {{ l.opacity }};">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-2);">
+                <span class="card-title" style="font-size: 20px;">{{ l.purpose }}</span>
+                <span class="{{ l.tagClass }}">{{ l.stateLabel }}</span>
+              </div>
+              <dl style="margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px var(--space-3); font-size: 14px;">
+                <dt style="color: var(--color-neutral-700);">Made</dt><dd style="margin: 0;">{{ l.created }}</dd>
+                <dt style="color: var(--color-neutral-700);">Stops</dt><dd style="margin: 0;">{{ l.expires }}</dd>
+                <dt style="color: var(--color-neutral-700);">Last opened</dt><dd style="margin: 0;">{{ l.lastOpened }}</dd>
+                <dt style="color: var(--color-neutral-700);">Also showing</dt><dd style="margin: 0;">{{ l.extras }}</dd>
+              </dl>
+              <sc-if value="{{ l.active }}" hint-placeholder-val="{{ true }}">
+                <div style="display: flex; gap: var(--space-2); flex-wrap: wrap;">
+                  <a class="btn btn-secondary" href="{{ l.href }}" target="_blank">Open</a>
+                  <button type="button" class="btn btn-secondary" onClick="{{ l.revoke }}">Switch off now</button>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top: var(--space-8); border-top: 1px solid var(--color-divider); padding-top: var(--space-4);">
+      <h3 style="font-size: 20px;">How the link is protected</h3>
+      <ul style="margin: 0; padding-left: 1.2em; font-size: 14px; columns: 2; column-gap: var(--space-8);">
+        <li>The link holds a 128-bit random code. In production the server stores only a hash of it.</li>
+        <li>It expires by default and can be switched off by the boy or any senior member of staff.</li>
+        <li>The page tells search engines not to list it and sends no referrer.</li>
+        <li>No faces, surnames or set names by default. Photos, when added, are of things.</li>
+        <li>Every opening is written to the audit log.</li>
+        <li>Links stop working when a boy leaves Ludgrove.</li>
+      </ul>
+    </section>
+  </sc-if>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { purpose: '', days: 90, show: { year: false, set: false, staff: false, photos: false }, newId: null, copied: false };
+  componentDidMount() {
+    this._u = () => this.forceUpdate();
+    window.addEventListener('trail-change', this._u);
+    if (!window.Trail) this._t = setInterval(() => { if (window.Trail) { clearInterval(this._t); this.forceUpdate(); } }, 40);
+  }
+  componentWillUnmount() { window.removeEventListener('trail-change', this._u); clearInterval(this._t); }
+  renderVals() {
+    const T = window.Trail;
+    const empty = { expiries: [], showOpts: [], links: [] };
+    if (!T) return empty;
+    const p = T.persona();
+    if (p.role !== 'pupil') return { ...empty, blocked: true, ok: false };
+    const pu = T.pupilFor(), S = T.state;
+    const base = location.href.replace(/[^/]*$/, '');
+    const url = (l) => base + 'Public.dc.html?t=' + l.token;
+    const OPTS = [['year', 'My year group', 'For example "Year 6".'], ['set', 'My set', 'Set names make it easier to work out who you are.'], ['staff', 'Names of staff who signed off', 'Off by default to protect staff too.'], ['photos', 'My photos', 'Photos of things only. Never faces.']];
+    const mine = S.links.filter(l => l.pupil === pu.id);
+    const nl = mine.find(l => l.id === this.state.newId);
+    const STL = { active: ['Active', 'tag tag-accent'], expired: ['Expired', 'tag tag-neutral'], revoked: ['Switched off', 'tag tag-neutral'] };
+    return {
+      blocked: false, ok: true,
+      kicker: pu.first + ' · Year ' + pu.year, dmName: 'Your Division Master, ' + T.staffName(pu.dm) + ',',
+      purpose: this.state.purpose, setPurpose: (e) => this.setState({ purpose: e.target.value }),
+      expiries: [30, 90, 180].map(d => ({ label: d + ' days', on: this.state.days === d, pick: () => this.setState({ days: d }) })),
+      showOpts: OPTS.map(([k, label, hint]) => ({ label, hint, on: this.state.show[k], toggle: () => this.setState(s => ({ show: { ...s.show, [k]: !s.show[k] } })) })),
+      create: () => { const l = T.createLink(this.state.days, { ...this.state.show }, this.state.purpose.trim() || 'Shared link'); this.setState({ newId: l.id, copied: false, purpose: '' }); },
+      hasNew: !!nl, newUrl: nl ? url(nl) : '', newHref: nl ? 'Public.dc.html?t=' + nl.token : '',
+      copyLabel: this.state.copied ? 'Copied' : 'Copy link',
+      copyNew: () => { if (nl && navigator.clipboard) navigator.clipboard.writeText(url(nl)).then(() => this.setState({ copied: true })); },
+      none: mine.length === 0,
+      links: mine.map(l => {
+        const st = T.linkState(l);
+        const extras = OPTS.filter(([k]) => l.show[k]).map(o => o[1].replace('My ', '').toLowerCase());
+        return { purpose: l.purpose, created: T.fmt(l.created), expires: T.fmt(l.expires), lastOpened: l.lastOpened ? T.fmtTime(l.lastOpened) + ' · ' + l.opens + (l.opens === 1 ? ' visit' : ' visits') : 'Not opened yet',
+          extras: extras.length ? extras.join(', ') : 'Nothing extra', stateLabel: STL[st][0], tagClass: STL[st][1], active: st === 'active', opacity: st === 'active' ? 1 : 0.7,
+          href: 'Public.dc.html?t=' + l.token, revoke: () => T.revokeLink(l.id) };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Top award</title>
+<link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
+<script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
+<script src="trail.js"></script>
+<style>body{margin:0;font-size:16px;background:var(--color-bg)} a{color:var(--color-accent-700)} a:hover{color:var(--color-accent-800)}</style>
+</helmet>
+<dc-import name="Header" page="top" hint-size="100%,96px"></dc-import>
+<main style="max-width: 1180px; margin: 0 auto; padding: var(--space-8) var(--space-6);">
+  <sc-if value="{{ notYet }}" hint-placeholder-val="{{ false }}">
+    <h1 style="font-size: 44px; font-weight: 500;">{{ topName }}</h1>
+    <p>Applications open in Year 8. Switch to Hugo in the header to see the application.</p>
+  </sc-if>
+  <sc-if value="{{ ok }}" hint-placeholder-val="{{ true }}">
+    <p style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin-bottom: var(--space-2);">Hugo · Year 8 · By application</p>
+    <h1 style="font-size: 48px; font-weight: 500;">{{ topName }}</h1>
+    <p style="font-size: 17px; max-width: 42em; text-wrap: pretty;">The top award is for a boy who has faced things he found hard, grown in confidence and given back. You apply with a statement and up to five entries from your trail. Your Division Master nominates, a panel of senior staff decides and the Headmaster confirms.</p>
+
+    <ol style="list-style: none; padding: 0; margin: var(--space-6) 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3);">
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+        <li style="border-top: 3px solid {{ s.line }}; padding-top: var(--space-2);">
+          <div style="font-family: var(--font-heading); font-size: 20px; font-weight: 600; color: {{ s.color }};">{{ s.label }}</div>
+          <div style="font-size: 13px; color: var(--color-neutral-700);">{{ s.sub }}</div>
+        </li>
+      </sc-for>
+    </ol>
+
+    <section style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-8); align-items: start;">
+      <div>
+        <h2 style="font-size: 26px;">Your statement</h2>
+        <p style="font-size: 14px; color: var(--color-neutral-700);">About 250 words, in your own words. Try: Which challenge changed you most? When did you want to give up, and what did you do? How have you helped other boys?</p>
+        <textarea class="input" style="min-height: 280px; font-size: 16px; line-height: 1.6;" value="{{ statement }}" onChange="{{ setStatement }}" disabled="{{ locked }}"></textarea>
+        <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--color-neutral-700); margin-top: 6px;">
+          <span>{{ saveNote }}</span><span style="font-variant-numeric: tabular-nums;">{{ words }} words</span>
+        </div>
+      </div>
+      <div>
+        <h2 style="font-size: 26px;">Choose your evidence</h2>
+        <p style="font-size: 14px; color: var(--color-neutral-700);">{{ evNote }}</p>
+        <div style="display: flex; flex-direction: column; border-top: 1px solid var(--color-divider); max-height: 420px; overflow-y: auto;">
+          <sc-for list="{{ entries }}" as="e" hint-placeholder-count="8">
+            <label style="display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: var(--space-2); padding: 10px 0; border-bottom: 1px solid var(--color-divider); cursor: pointer; opacity: {{ e.opacity }};">
+              <input type="checkbox" checked="{{ e.on }}" onChange="{{ e.toggle }}" disabled="{{ e.disabled }}" style="width: 18px; height: 18px; accent-color: var(--color-accent); margin-top: 3px;">
+              <span><span style="font-size: 15px;">{{ e.title }}</span><span style="display: block; font-size: 12px; color: var(--color-neutral-700);">{{ e.meta }}</span></span>
+            </label>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <sc-if value="{{ problem }}" hint-placeholder-val="{{ false }}"><p style="margin-top: var(--space-4); color: var(--color-accent-800);">{{ problem }}</p></sc-if>
+    <div style="margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--color-divider); display: flex; gap: var(--space-3); align-items: center;">
+      <sc-if value="{{ canSubmit }}" hint-placeholder-val="{{ true }}">
+        <button type="button" class="btn btn-primary" style="min-height: 48px; font-size: 16px;" onClick="{{ submit }}">Send my application</button>
+      </sc-if>
+      <sc-if value="{{ locked }}" hint-placeholder-val="{{ false }}">
+        <p style="margin: 0;">Sent {{ sentDate }}. Mr Pryce will read it and decide whether to nominate you.</p>
+      </sc-if>
+    </div>
+  </sc-if>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { problem: '', draft: null };
+  componentDidMount() {
+    this._u = () => this.forceUpdate();
+    window.addEventListener('trail-change', this._u);
+    if (!window.Trail) this._t = setInterval(() => { if (window.Trail) { clearInterval(this._t); this.forceUpdate(); } }, 40);
+  }
+  componentWillUnmount() { window.removeEventListener('trail-change', this._u); clearInterval(this._t); clearTimeout(this._s); }
+  renderVals() {
+    const T = window.Trail;
+    if (!T) return { steps: [], entries: [] };
+    const pu = T.pupilFor(), A = T.state.topAward;
+    if (pu.year < 8 || T.persona().role !== 'pupil') return { notYet: true, ok: false, topName: T.topName(), steps: [], entries: [] };
+    const locked = A.status !== 'draft';
+    const statement = this.state.draft ?? A.statement;
+    const words = statement.trim() ? statement.trim().split(/\s+/).length : 0;
+    const appr = T.entriesFor(pu.id).filter(e => e.status === 'approved');
+    const full = A.evidence.length >= 5;
+    const sent = A.history.find(h => h.step === 'Application sent');
+    return {
+      notYet: false, ok: true, topName: T.topName(),
+      steps: [
+        { label: 'You apply', sub: locked ? 'Sent ' + T.fmt(sent.date) : 'In progress', done: locked },
+        { label: 'Nomination', sub: 'Division Master or Head of Year' },
+        { label: 'Panel', sub: 'Senior staff, summer term' },
+        { label: 'Confirmed', sub: 'The Headmaster' }
+      ].map((s, i) => ({ ...s, line: i === 0 ? 'var(--color-accent)' : 'var(--color-divider)', color: i === 0 ? 'var(--color-accent-800)' : 'var(--color-neutral-700)' })),
+      statement, words, locked,
+      setStatement: (e) => { const v = e.target.value; this.setState({ draft: v, problem: '' }); clearTimeout(this._s); this._s = setTimeout(() => T.saveTopAward({ statement: v }), 400); },
+      saveNote: locked ? 'Sent. You can no longer edit it.' : 'Saved as you type.',
+      evNote: locked ? 'The entries you chose.' : A.evidence.length + ' of 5 chosen.',
+      entries: appr.map(e => { const on = A.evidence.includes(e.id); return { title: e.title, meta: T.cat(e.cat).name + ' · ' + T.fmt(e.date), on, disabled: locked || (!on && full), opacity: locked || (!on && full) ? 0.6 : 1,
+        toggle: () => T.saveTopAward({ evidence: on ? A.evidence.filter(x => x !== e.id) : [...A.evidence, e.id] }) }; }),
+      problem: this.state.problem,
+      canSubmit: !locked,
+      sentDate: sent ? T.fmt(sent.date) : '',
+      submit: () => {
+        const st = this.state.draft ?? A.statement;
+        const w = st.trim() ? st.trim().split(/\s+/).length : 0;
+        if (w < 80) { this.setState({ problem: 'Write at least 80 words before you send it.' }); return; }
+        if (A.evidence.length < 3) { this.setState({ problem: 'Choose at least three entries as evidence.' }); return; }
+        T.saveTopAward({ statement: st }); T.submitTopAward();
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

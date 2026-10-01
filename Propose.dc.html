@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>My own challenge</title>
+<link rel="stylesheet" href="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;1,400&amp;display=swap">
+<script src="_ds/classical-0ea1e6c5-e997-44f4-a804-d396efe5396d/_ds_bundle.js"></script>
+<script src="trail.js"></script>
+<style>body{margin:0;font-size:16px;background:var(--color-bg)} a{color:var(--color-accent-700)} a:hover{color:var(--color-accent-800)}</style>
+</helmet>
+<dc-import name="Header" page="propose" hint-size="100%,96px"></dc-import>
+<main style="max-width: 1180px; margin: 0 auto; padding: var(--space-8) var(--space-6); display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: var(--space-8); align-items: start;">
+  <section>
+    <p style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin-bottom: var(--space-2);">{{ kicker }}</p>
+    <h1 style="font-size: 44px; font-weight: 500;">Design your own challenge</h1>
+    <p style="font-size: 17px; max-width: 36em; text-wrap: pretty;">{{ rule }}</p>
+
+    <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+      <div style="border: 1px solid var(--color-accent); border-radius: var(--radius-md); padding: var(--space-4); margin-top: var(--space-4);">
+        <p style="margin: 0 0 var(--space-2); font-family: var(--font-heading); font-size: 24px;">Sent to {{ supName }}</p>
+        <p style="margin: 0 0 var(--space-3);">When they agree it, your challenge will appear in the list when you log a challenge.</p>
+        <button type="button" class="btn btn-secondary" onClick="{{ another }}">Propose another</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: var(--space-4); margin-top: var(--space-6);">
+        <div class="field">
+          <label for="cat">Part of the trail</label>
+          <select id="cat" class="input" style="min-height: 44px; font-size: 16px;" value="{{ form.cat }}" onChange="{{ set.cat }}">
+            <sc-for list="{{ cats }}" as="c" hint-placeholder-count="6"><option value="{{ c.id }}">{{ c.name }}</option></sc-for>
+          </select>
+        </div>
+        <div class="field">
+          <label for="title">What is your challenge called?</label>
+          <input id="title" class="input" style="min-height: 44px; font-size: 16px;" value="{{ form.title }}" onChange="{{ set.title }}" placeholder="Build and monitor a bird box">
+        </div>
+        <div class="field">
+          <label for="why">Why do you want to do it?</label>
+          <textarea id="why" class="input" style="font-size: 16px;" value="{{ form.why }}" onChange="{{ set.why }}"></textarea>
+        </div>
+        <div class="field">
+          <label for="plan">How will you do it? What will you need?</label>
+          <textarea id="plan" class="input" style="font-size: 16px;" value="{{ form.plan }}" onChange="{{ set.plan }}"></textarea>
+        </div>
+        <div class="field">
+          <label for="success">How will you know you have done it?</label>
+          <textarea id="success" class="input" style="font-size: 16px;" value="{{ form.success }}" onChange="{{ set.success }}"></textarea>
+        </div>
+        <sc-if value="{{ chooses }}" hint-placeholder-val="{{ true }}">
+          <div class="field">
+            <label for="sup">Who will support you?</label>
+            <select id="sup" class="input" style="min-height: 44px; font-size: 16px;" value="{{ form.supervisor }}" onChange="{{ set.supervisor }}">
+              <sc-for list="{{ staff }}" as="s" hint-placeholder-count="6"><option value="{{ s.id }}">{{ s.label }}</option></sc-for>
+            </select>
+          </div>
+        </sc-if>
+        <sc-if value="{{ problem }}" hint-placeholder-val="{{ false }}"><p style="margin: 0; color: var(--color-accent-800);">{{ problem }}</p></sc-if>
+        <div><button type="button" class="btn btn-primary" style="min-height: 48px; font-size: 16px;" onClick="{{ submit }}">Send to {{ supName }}</button></div>
+      </div>
+    </sc-if>
+  </section>
+
+  <aside>
+    <h2 style="font-size: 26px;">My proposals</h2>
+    <sc-if value="{{ none }}" hint-placeholder-val="{{ false }}"><p style="color: var(--color-neutral-700);">Nothing yet.</p></sc-if>
+    <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+      <sc-for list="{{ mine }}" as="p" hint-placeholder-count="2">
+        <div class="card" style="padding: var(--space-4);">
+          <div style="display: flex; justify-content: space-between; gap: var(--space-2); align-items: center;">
+            <span class="card-kicker" style="color: var(--color-accent-700);">{{ p.catName }}</span>
+            <span class="{{ p.tagClass }}">{{ p.statusLabel }}</span>
+          </div>
+          <div class="card-title" style="font-size: 21px;">{{ p.title }}</div>
+          <p style="margin: 0; font-size: 14px;">{{ p.plan }}</p>
+          <sc-if value="{{ p.hasComment }}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-size: 14px;"><span style="color: var(--color-neutral-700);">{{ p.supName }}:</span> <em>{{ p.comment }}</em></p></sc-if>
+          <div class="card-meta">{{ p.meta }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </aside>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { form: { cat: 'service', title: '', why: '', plan: '', success: '', supervisor: '' }, sent: false, problem: '' };
+  componentDidMount() {
+    this._u = () => this.forceUpdate();
+    window.addEventListener('trail-change', this._u);
+    const init = () => this.setState(s => ({ form: { ...s.form, supervisor: window.Trail.pupilFor().dm } }));
+    if (window.Trail) init(); else this._t = setInterval(() => { if (window.Trail) { clearInterval(this._t); init(); } }, 40);
+  }
+  componentWillUnmount() { window.removeEventListener('trail-change', this._u); clearInterval(this._t); }
+  renderVals() {
+    const T = window.Trail;
+    if (!T) return { cats: [], staff: [], mine: [], form: {}, set: {} };
+    const pu = T.pupilFor(), f = this.state.form, young = T.isYoung(pu.band);
+    const set = {}; ['cat', 'title', 'why', 'plan', 'success', 'supervisor'].forEach(k => set[k] = (e) => { const v = e.target.value; this.setState(s => ({ form: { ...s.form, [k]: v }, problem: '' })); });
+    const rule = young ? 'You can add one challenge of your own in each part of the trail. It is up to you.' : pu.band === 'y6' ? 'Every Year 6 stage includes at least one challenge you design yourself. Choose a member of staff to support you.' : 'In Years 7 and 8 you plan a term-long personal project. Choose who supports you, and agree it with them before you start.';
+    const ST = { pending: ['Waiting to be agreed', 'tag tag-outline'], agreed: ['Agreed', 'tag tag-accent'], changes: ['Changes suggested', 'tag tag-outline'] };
+    const mine = T.state.proposals.filter(p => p.pupil === pu.id).slice().reverse().map(p => ({ title: p.title, plan: p.plan, catName: T.cat(p.cat).name, statusLabel: ST[p.status][0], tagClass: ST[p.status][1], hasComment: !!p.comment, comment: p.comment, supName: T.staffName(p.supervisor), meta: 'Proposed ' + T.fmt(p.date) + ' · ' + T.staffName(p.supervisor) }));
+    return {
+      kicker: pu.first + ' · Year ' + pu.year, rule, chooses: !young,
+      cats: T.CATS, staff: Object.entries(T.STAFF).map(([id, s]) => ({ id, label: s.name + ' · ' + s.role })),
+      form: f, set, sent: this.state.sent, showForm: !this.state.sent, problem: this.state.problem,
+      supName: T.staffName(young ? pu.dm : f.supervisor),
+      mine, none: mine.length === 0,
+      another: () => this.setState({ sent: false, form: { cat: 'service', title: '', why: '', plan: '', success: '', supervisor: pu.dm } }),
+      submit: () => {
+        if (!f.title.trim() || !f.plan.trim()) { this.setState({ problem: 'Give your challenge a name and say how you will do it.' }); return; }
+        T.addProposal({ cat: f.cat, title: f.title.trim(), why: f.why, plan: f.plan, success: f.success, supervisor: young ? pu.dm : f.supervisor });
+        this.setState({ sent: true });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
